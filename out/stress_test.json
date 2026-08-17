@@ -1,0 +1,72 @@
+[
+  {
+    "one_liner": "Stripe provides a broad REST API for payments/billing/finance, with API-key auth for single-account use and a public OAuth2 (Connect) flow for multi-tenant platforms connecting other users' Stripe accounts.",
+    "auth_method": "OAuth2",
+    "self_serve_status": "self-serve-free",
+    "api_surface": "REST",
+    "api_breadth": "broad",
+    "has_mcp": "yes-official",
+    "buildability": "buildable-now",
+    "main_blocker": "",
+    "evidence_url": "https://docs.stripe.com/connect/oauth-reference",
+    "confidence": 0.92,
+    "app": "Stripe",
+    "category": "Finance and Fintech"
+  },
+  {
+    "one_liner": "Salesforce offers a broad, mature REST/SOAP/Bulk/Metadata API platform secured via OAuth2 Connected Apps / External Client Apps, and any developer can spin up a free Developer Edition org to register a public OAuth app for multi-tenant end-user connections.",
+    "auth_method": "OAuth2",
+    "self_serve_status": "self-serve-free",
+    "api_surface": "REST",
+    "api_breadth": "broad",
+    "has_mcp": "yes-official",
+    "buildability": "buildable-now",
+    "main_blocker": "",
+    "evidence_url": "https://help.salesforce.com/s/articleView?id=remoteaccess_oauth_tokens_scopes.htm&language=en_US&type=5",
+    "confidence": 0.9,
+    "app": "Salesforce",
+    "category": "CRM and Sales"
+  },
+  {
+    "one_liner": "Amazon Selling Partner API (SP-API) lets developers build apps for sellers/vendors via REST, using OAuth2 (Login with Amazon) for multi-tenant authorization, but production access requires Amazon's approval of your developer profile and each API role.",
+    "auth_method": "OAuth2",
+    "self_serve_status": "admin-approval",
+    "api_surface": "REST",
+    "api_breadth": "broad",
+    "has_mcp": "yes-official",
+    "buildability": "buildable-with-friction",
+    "main_blocker": "Public (multi-tenant) apps use OAuth2/LWA so other sellers can authorize your app, but before you can register and call the SP-API in production you must have an \"approved developer profile\" in the Solution Provider Portal, and you can only select the specific API roles (Orders, Reports, Pricing, Restricted PII data, etc.) that Amazon has approved for your account. This is a human-reviewed approval step (not instant self-serve) though it does not require a formal partnership/marketplace listing for basic API access. Sandbox access is free/self-serve without this approval.",
+    "evidence_url": "https://developer-docs.amazon.com/sp-api/docs/onboarding-step-7-register-your-first-production-application",
+    "confidence": 0.8,
+    "app": "Amazon Selling Partner",
+    "category": "Ecommerce"
+  },
+  {
+    "one_liner": "Fanbasis has rebranded to \"Commas\" and offers a REST API (commasdocs.com) for checkout sessions, subscriptions, customers, webhooks, and transactions, authenticated via a simple x-api-key header generated per-account in the dashboard.",
+    "auth_method": "API key",
+    "self_serve_status": "self-serve-free",
+    "api_surface": "REST",
+    "api_breadth": "moderate",
+    "has_mcp": "yes-community",
+    "buildability": "buildable-with-friction",
+    "main_blocker": "Auth is a static per-account API key (no OAuth2 flow), so each end-user must manually generate and share their own key from the Commas dashboard rather than going through a standard authorize/consent redirect \u2014 workable for a Composio toolkit (API key connection type) but not a seamless one-click multi-tenant OAuth experience. Also note the found MCP server (commas-cli on npm) is a third-party/community project, not officially published by Commas/Fanbasis.",
+    "evidence_url": "https://commasdocs.com/",
+    "confidence": 0.75,
+    "app": "fanbasis",
+    "category": "Ecommerce"
+  },
+  {
+    "one_liner": "Otter.ai provides an official REST Public API (channels, conversations, transcripts, action items, webhooks) plus an official hosted OAuth-based MCP server, but both are gated to Enterprise-workspace customers and require an account manager to enable access.",
+    "auth_method": "API key",
+    "self_serve_status": "admin-approval",
+    "api_surface": "REST",
+    "api_breadth": "moderate",
+    "has_mcp": "yes-official",
+    "buildability": "buildable-with-friction",
+    "main_blocker": "The Public API and MCP server are only available to Otter.ai Enterprise workspace customers; the help docs state \"If you do not see this feature for your workspace, contact your Otter account manager\" to get it enabled, and the general FAQ says \"contact your Otter account manager to enable access.\" So while creating a Bearer API key (or OAuth-connecting the MCP server) is self-serve once enabled, the underlying multi-tenant access requires an Enterprise plan plus manual enablement by Otter's account team \u2014 not something any developer/end-user can unlock instantly.",
+    "evidence_url": "https://help.otter.ai/hc/en-us/articles/36130822688279-Otter-ai-Public-API",
+    "confidence": 0.85,
+    "app": "Otter AI",
+    "category": "AI, Research and Media-native"
+  }
+]

@@ -1,0 +1,238 @@
+[
+  {
+    "app": "Stripe",
+    "first_pass": {
+      "one_liner": "Stripe offers a comprehensive REST API for payments/billing, authenticated via secret/restricted API keys for direct account access, and a full OAuth2 flow (Stripe Connect) for platforms to connect multiple end-users' Stripe accounts.",
+      "auth_method": "API key",
+      "self_serve_status": "self-serve-free",
+      "api_surface": "REST",
+      "api_breadth": "broad",
+      "has_mcp": "no",
+      "buildability": "buildable-now",
+      "main_blocker": "",
+      "evidence_url": "https://docs.stripe.com/connect/oauth-reference",
+      "confidence": 0.9,
+      "app": "Stripe",
+      "category": "Finance and Fintech"
+    },
+    "catalog_check": {
+      "toolkit_slug": "stripe",
+      "found": true,
+      "catalog_schemes": [
+        "API_KEY",
+        "BEARER_TOKEN",
+        "OAUTH2"
+      ],
+      "agrees": true,
+      "note": ""
+    },
+    "second_pass": {
+      "one_liner": "Stripe offers a broad REST API (payments, customers, invoices, subscriptions, etc.) authenticated via API keys for single-account use, plus a self-serve Connect OAuth flow that lets platforms instantly get a client_id and let end-users connect their own Stripe accounts.",
+      "auth_method": "OAuth2",
+      "self_serve_status": "self-serve-free",
+      "api_surface": "REST",
+      "api_breadth": "broad",
+      "has_mcp": "no",
+      "buildability": "buildable-now",
+      "main_blocker": "",
+      "evidence_url": "https://docs.stripe.com/connect/oauth-standard-accounts",
+      "confidence": 0.9,
+      "app": "Stripe",
+      "category": "Finance and Fintech"
+    },
+    "disagreements": [
+      {
+        "field": "auth_method",
+        "first_pass": "API key",
+        "second_pass": "OAuth2"
+      }
+    ],
+    "needs_human_review": true,
+    "review_reason": "1 field disagreement(s) with the independent browser-based pass",
+    "final_confidence": 0.9
+  },
+  {
+    "app": "Salesforce",
+    "first_pass": {
+      "one_liner": "Salesforce offers a mature, extensively documented REST/SOAP/Bulk API platform with OAuth2 Connected Apps enabling multi-tenant, self-serve API integrations.",
+      "auth_method": "OAuth2",
+      "self_serve_status": "self-serve-free",
+      "api_surface": "REST",
+      "api_breadth": "broad",
+      "has_mcp": "no",
+      "buildability": "buildable-now",
+      "main_blocker": "",
+      "evidence_url": "https://help.salesforce.com/s/articleView?id=remoteaccess_oauth_tokens_scopes.htm&language=en_US&type=5",
+      "confidence": 0.85,
+      "app": "Salesforce",
+      "category": "CRM and Sales"
+    },
+    "catalog_check": {
+      "toolkit_slug": "salesforce",
+      "found": true,
+      "catalog_schemes": [
+        "BEARER_TOKEN",
+        "OAUTH2",
+        "S2S_OAUTH2"
+      ],
+      "agrees": true,
+      "note": ""
+    },
+    "second_pass": {
+      "one_liner": "Salesforce exposes a broad set of official REST/SOAP/Bulk/Metadata APIs authenticated via OAuth 2.0 Connected Apps (or newer External Client Apps), which any developer can self-serve create using a free Developer Edition org\u2014no approval needed unless you want AppExchange marketplace listing/ISV partner status.",
+      "auth_method": "OAuth2",
+      "self_serve_status": "self-serve-free",
+      "api_surface": "REST",
+      "api_breadth": "broad",
+      "has_mcp": "no",
+      "buildability": "buildable-now",
+      "main_blocker": "Salesforce is transitioning Connected Apps to \"External Client Apps\" with new mandatory OAuth security controls (deadline May 2026), and doc pages are inconsistent/thin on multi-tenant setup specifics, but the underlying OAuth2 Connected App / External Client App flow remains free and self-serve for any developer with a Developer Edition org; only AppExchange marketplace distribution requires a separate paid/partner security review.",
+      "evidence_url": "https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/intro_oauth_and_connected_apps.htm",
+      "confidence": 0.72,
+      "app": "Salesforce",
+      "category": "CRM and Sales"
+    },
+    "disagreements": [],
+    "needs_human_review": false,
+    "review_reason": "both signals agree",
+    "final_confidence": 0.9
+  },
+  {
+    "app": "Amazon Selling Partner",
+    "first_pass": {
+      "one_liner": "Amazon Selling Partner API (SP-API) offers a broad REST API for seller/vendor operations (orders, listings, inventory, pricing, reports) using LWA OAuth2, but multi-tenant ('public') apps require Amazon approval as a registered public developer, agreement to Solution Provider Portal Agreement/AUP/DPP, security review, and (per policy) listing on the Selling Partner Appstore with a 3-4 week app review.",
+      "auth_method": "OAuth2",
+      "self_serve_status": "partner-gated",
+      "api_surface": "REST",
+      "api_breadth": "broad",
+      "has_mcp": "no",
+      "buildability": "blocked",
+      "main_blocker": "To let multiple end-users (sellers/vendors) connect their own Amazon accounts via OAuth, a developer must register as a 'Public Developer', pass Amazon's application/security review, sign the Solution Provider Portal Agreement, and per policy list the app on the Selling Partner Appstore, which undergoes its own content/compliance review and 3-4 week publication process. Private/self-authorized apps (personal single-account use) are easy and self-serve, but that path does not support other users connecting their own accounts, so it does not satisfy Composio's multi-tenant requirement.",
+      "evidence_url": "https://developer-docs.amazon.com/sp-api/docs/list-your-app-on-the-selling-partner-appstore",
+      "confidence": 0.9,
+      "app": "Amazon Selling Partner",
+      "category": "Ecommerce"
+    },
+    "catalog_check": {
+      "toolkit_slug": "amazon_selling_partner",
+      "found": false,
+      "catalog_schemes": [],
+      "agrees": null,
+      "note": "no Composio toolkit exists for this app"
+    },
+    "second_pass": {
+      "one_liner": "Amazon SP-API lets sellers/vendors integrate order, inventory, catalog, reports, and finance data via a broad REST API secured with Login-with-Amazon OAuth2, but building a multi-tenant (public) app requires becoming an approved Solution Provider and listing in the Selling Partner Appstore.",
+      "auth_method": "OAuth2",
+      "self_serve_status": "partner-gated",
+      "api_surface": "REST",
+      "api_breadth": "broad",
+      "has_mcp": "no",
+      "buildability": "buildable-with-friction",
+      "main_blocker": "To let other sellers connect their own accounts (multi-tenant), you must register as a \"Public Developer,\" accept the Solution Provider Portal Agreement/Acceptable Use & Data Protection policies, and get Amazon to review and approve your app (including a functional/security review, 5-day SLA, and additional business-verification + data-security review for any restricted/PII roles) before listing it in the Selling Partner Appstore. A private-app path exists but is capped at 10 self-authorized connections for a single org, which is not viable for a multi-tenant Composio toolkit.",
+      "evidence_url": "https://developer-docs.amazon/sp-api/docs/register-as-a-public-developer",
+      "confidence": 0.85,
+      "app": "Amazon Selling Partner",
+      "category": "Ecommerce"
+    },
+    "disagreements": [
+      {
+        "field": "buildability",
+        "first_pass": "blocked",
+        "second_pass": "buildable-with-friction"
+      }
+    ],
+    "needs_human_review": true,
+    "review_reason": "1 field disagreement(s) with the independent browser-based pass",
+    "final_confidence": 0.85
+  },
+  {
+    "app": "fanbasis",
+    "first_pass": {
+      "one_liner": "Fanbasis (rebranded as Commas) offers a REST API for checkout sessions, products, and payment/subscription management, authenticated via a per-account x-api-key generated in the dashboard.",
+      "auth_method": "API key",
+      "self_serve_status": "self-serve-free",
+      "api_surface": "REST",
+      "api_breadth": "narrow",
+      "has_mcp": "no",
+      "buildability": "buildable-with-friction",
+      "main_blocker": "Auth is a single static API key per merchant account (no OAuth), so each end-user would need to manually generate and paste their own key from the Fanbasis/Commas dashboard rather than going through a standard multi-tenant OAuth connect flow. API surface also appears narrow (checkout sessions, products, payments) based on available docs.",
+      "evidence_url": "https://commasdocs.com/",
+      "confidence": 0.6,
+      "app": "fanbasis",
+      "category": "Ecommerce"
+    },
+    "catalog_check": {
+      "toolkit_slug": "fanbasis",
+      "found": false,
+      "catalog_schemes": [],
+      "agrees": null,
+      "note": "no Composio toolkit exists for this app"
+    },
+    "second_pass": {
+      "one_liner": "FanBasis (rebranded to \"Commas\" in July 2026) is an all-in-one payments/checkout platform for online creators/sellers, offering a REST API (checkout sessions, customers, subscriptions, discount codes, webhooks) with official SDKs for Node, Python, PHP and Ruby, authenticated via a per-account API key.",
+      "auth_method": "API key",
+      "self_serve_status": "self-serve-free",
+      "api_surface": "REST",
+      "api_breadth": "moderate",
+      "has_mcp": "no",
+      "buildability": "buildable-with-friction",
+      "main_blocker": "The brand recently migrated from FanBasis to Commas (July 2026), leaving docs fragmented across the old dev-docs.fanbasis.com (which now sits behind a sign-in/password wall) and the new apidocs.fan reference (a JS-rendered SPA that could not be fully crawled). Auth is confirmed as a simple per-account API key (e.g. FANBASIS_CHECKOUT_API_KEY, obtained via Account > API Keys), which is a single static credential per merchant account rather than an OAuth flow, so building a robust multi-tenant Composio toolkit is possible but would require working from the SDK/api.md reference and possibly contacting Commas for full endpoint documentation confirmation.",
+      "evidence_url": "https://cdn.jsdelivr.net/npm/@fanbasis/checkout-sdk/README.md",
+      "confidence": 0.45,
+      "app": "fanbasis",
+      "category": "Ecommerce"
+    },
+    "disagreements": [
+      {
+        "field": "api_breadth",
+        "first_pass": "narrow",
+        "second_pass": "moderate"
+      }
+    ],
+    "needs_human_review": true,
+    "review_reason": "1 field disagreement(s) with the independent browser-based pass; first-pass confidence 0.6 below 0.75",
+    "final_confidence": 0.45
+  },
+  {
+    "app": "Otter AI",
+    "first_pass": {
+      "one_liner": "Otter.ai offers a REST Public API (Bearer token, Enterprise-only workspaces) plus an official OAuth-based, read-only remote MCP server (mcp.otter.ai) for meeting transcripts/summaries/action items.",
+      "auth_method": "API key",
+      "self_serve_status": "admin-approval",
+      "api_surface": "REST",
+      "api_breadth": "moderate",
+      "has_mcp": "yes-official",
+      "buildability": "buildable-with-friction",
+      "main_blocker": "The REST Public API (channels, conversations, transcripts, audio, workspace) is gated to Enterprise workspaces only \u2014 the Developer tab/API key creation is not visible to standard accounts and requires an Otter account manager to enable it, so a Composio toolkit built on the REST API would require each end-customer to already be on an Enterprise plan and have API access manually enabled by Otter (admin-approval, not self-serve). Also, auth is per-user API keys (max 2 per user) rather than a public multi-tenant OAuth app, which limits scalable multi-tenant onboarding. Separately, Otter does publish an official read-only MCP server (OAuth-authenticated, available on all plans including free) at https://mcp.otter.ai/mcp, which is more broadly self-serve but only exposes read-only meeting search/summary/action-item retrieval, not the full CRUD surface of the REST API.",
+      "evidence_url": "https://help.otter.ai/hc/en-us/articles/36130822688279-Otter-ai-Public-API",
+      "confidence": 0.85,
+      "app": "Otter AI",
+      "category": "AI, Research and Media-native"
+    },
+    "catalog_check": {
+      "toolkit_slug": "otter_ai",
+      "found": false,
+      "catalog_schemes": [],
+      "agrees": null,
+      "note": "no Composio toolkit exists for this app"
+    },
+    "second_pass": {
+      "one_liner": "Otter.ai offers a REST \"Public/Connect API\" (Bearer API-key auth) and an official OAuth-authenticated MCP Server for meeting transcript search, but both are gated to Enterprise-tier customers and require contacting an Otter account manager to enable access.",
+      "auth_method": "API key",
+      "self_serve_status": "admin-approval",
+      "api_surface": "REST",
+      "api_breadth": "moderate",
+      "has_mcp": "yes-official",
+      "buildability": "buildable-with-friction",
+      "main_blocker": "Both the Public/Connect API and the MCP Server are restricted to Otter Enterprise plan customers; per third-party developer summaries (apitracker.io, aitoolsdevpro.com) an Otter account manager must explicitly enable API access, and the MCP Server's official announcement is framed as an \"Otter for Enterprise\" feature requiring a sales demo/contact rather than instant self-serve signup. Official help.otter.ai pages returned HTTP 403 to automated fetch, so exact self-serve mechanics for individual API keys (which appear generated in-app via Settings > Developer) couldn't be directly confirmed, though secondary sources agree Enterprise gating applies for any multi-tenant/integration use.",
+      "evidence_url": "https://otter.ai/blog/otter-for-enterprise-connect-ai-to-ai-with-otters-mcp",
+      "confidence": 0.55,
+      "app": "Otter AI",
+      "category": "AI, Research and Media-native"
+    },
+    "disagreements": [],
+    "needs_human_review": false,
+    "review_reason": "both signals agree",
+    "final_confidence": 0.9
+  }
+]

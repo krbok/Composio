@@ -1,0 +1,1554 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Composio App Research: 100 Apps Evaluated by AI Agent</title>
+  <meta name="description" content="A comprehensive research case study evaluating 100 enterprise and developer platforms for Composio agent toolkit buildability, auth mix, multi-tenant gating, and MCP ecosystem support." />
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      --bg-base: #0a0d14;
+      --bg-surface: #111622;
+      --bg-surface-elevated: #182030;
+      --bg-card: rgba(24, 32, 48, 0.7);
+      --border-subtle: rgba(255, 255, 255, 0.08);
+      --border-focus: rgba(99, 102, 241, 0.4);
+      --text-primary: #f8fafc;
+      --text-secondary: #94a3b8;
+      --text-muted: #64748b;
+      
+      --accent-primary: #6366f1;
+      --accent-primary-hover: #4f46e5;
+      --accent-secondary: #06b6d4;
+      --accent-emerald: #10b981;
+      --accent-amber: #f59e0b;
+      --accent-rose: #f43f5e;
+      --accent-purple: #a855f7;
+
+      --badge-green-bg: rgba(16, 185, 129, 0.15);
+      --badge-green-text: #34d399;
+      --badge-green-border: rgba(16, 185, 129, 0.3);
+
+      --badge-yellow-bg: rgba(245, 158, 11, 0.15);
+      --badge-yellow-text: #fbbf24;
+      --badge-yellow-border: rgba(245, 158, 11, 0.3);
+
+      --badge-red-bg: rgba(244, 63, 94, 0.15);
+      --badge-red-text: #fb7185;
+      --badge-red-border: rgba(244, 63, 94, 0.3);
+
+      --badge-blue-bg: rgba(99, 102, 241, 0.15);
+      --badge-blue-text: #818cf8;
+      --badge-blue-border: rgba(99, 102, 241, 0.3);
+
+      --badge-purple-bg: rgba(168, 85, 247, 0.15);
+      --badge-purple-text: #c084fc;
+      --badge-purple-border: rgba(168, 85, 247, 0.3);
+
+      --radius-sm: 6px;
+      --radius-md: 10px;
+      --radius-lg: 16px;
+      --shadow-subtle: 0 4px 20px -2px rgba(0, 0, 0, 0.5);
+      --shadow-glow: 0 0 30px -5px rgba(99, 102, 241, 0.2);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-base);
+      color: var(--text-primary);
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    a {
+      color: var(--accent-secondary);
+      text-decoration: none;
+      transition: color 0.15s ease;
+    }
+
+    a:hover {
+      color: #38bdf8;
+      text-decoration: underline;
+    }
+
+    /* Container */
+    .container {
+      max-width: 1380px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* Glow backdrop */
+    .glow-bg {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 1000px;
+      height: 400px;
+      background: radial-gradient(circle, rgba(99, 102, 241, 0.12) 0%, rgba(6, 182, 212, 0.05) 50%, rgba(10, 13, 20, 0) 70%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* Header */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: rgba(10, 13, 20, 0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border-subtle);
+      padding: 14px 0;
+    }
+
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .logo-group {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .logo-badge {
+      background: linear-gradient(135deg, #6366f1, #06b6d4);
+      color: white;
+      font-weight: 800;
+      font-size: 14px;
+      padding: 6px 12px;
+      border-radius: var(--radius-sm);
+      letter-spacing: 0.5px;
+    }
+
+    .brand-title {
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .nav-link {
+      color: var(--text-secondary);
+      font-size: 14px;
+      font-weight: 500;
+      transition: color 0.15s ease;
+    }
+
+    .nav-link:hover {
+      color: var(--text-primary);
+      text-decoration: none;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 16px;
+      font-size: 13px;
+      font-weight: 600;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      transition: all 0.15s ease;
+      border: 1px solid transparent;
+    }
+
+    .btn-primary {
+      background: var(--accent-primary);
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background: var(--accent-primary-hover);
+      text-decoration: none;
+      box-shadow: 0 0 15px rgba(99, 102, 241, 0.4);
+    }
+
+    .btn-outline {
+      background: rgba(255, 255, 255, 0.04);
+      border-color: var(--border-subtle);
+      color: var(--text-primary);
+    }
+
+    .btn-outline:hover {
+      background: rgba(255, 255, 255, 0.08);
+      border-color: rgba(255, 255, 255, 0.2);
+      text-decoration: none;
+    }
+
+    /* Hero Section */
+    .hero {
+      position: relative;
+      padding: 56px 0 40px;
+      text-align: center;
+    }
+
+    .hero-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 14px;
+      background: rgba(99, 102, 241, 0.1);
+      border: 1px solid var(--border-focus);
+      border-radius: 9999px;
+      font-size: 12px;
+      font-weight: 600;
+      color: #a5b4fc;
+      margin-bottom: 20px;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+    }
+
+    .hero-tag .dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #10b981;
+      box-shadow: 0 0 8px #10b981;
+    }
+
+    .hero h1 {
+      font-size: 42px;
+      font-weight: 800;
+      letter-spacing: -1px;
+      line-height: 1.15;
+      margin-bottom: 16px;
+      background: linear-gradient(135deg, #ffffff 0%, #cbd5e1 50%, #94a3b8 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero p {
+      font-size: 17px;
+      color: var(--text-secondary);
+      max-width: 820px;
+      margin: 0 auto 36px;
+      line-height: 1.6;
+    }
+
+    /* Stat Cards Bar */
+    .stat-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+      margin-bottom: 48px;
+    }
+
+    .stat-card {
+      background: var(--bg-card);
+      backdrop-filter: blur(8px);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 20px;
+      text-align: left;
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.2s ease, border-color 0.2s ease;
+    }
+
+    .stat-card:hover {
+      transform: translateY(-2px);
+      border-color: rgba(255, 255, 255, 0.18);
+    }
+
+    .stat-card::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: var(--accent-gradient, linear-gradient(90deg, var(--accent-primary), var(--accent-secondary)));
+    }
+
+    .stat-value {
+      font-size: 32px;
+      font-weight: 800;
+      color: var(--text-primary);
+      font-feature-settings: "tnum";
+      margin-bottom: 4px;
+      display: flex;
+      align-items: baseline;
+      gap: 6px;
+    }
+
+    .stat-unit {
+      font-size: 16px;
+      font-weight: 500;
+      color: var(--text-muted);
+    }
+
+    .stat-label {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-secondary);
+      margin-bottom: 2px;
+    }
+
+    .stat-desc {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    /* Section Wrapper */
+    .section-box {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      padding: 32px;
+      margin-bottom: 40px;
+      box-shadow: var(--shadow-subtle);
+    }
+
+    .section-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      margin-bottom: 24px;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .section-title {
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--text-primary);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .section-subtitle {
+      font-size: 14px;
+      color: var(--text-secondary);
+      margin-top: 4px;
+    }
+
+    /* Headline Patterns Grid */
+    .patterns-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 20px;
+      margin-bottom: 28px;
+    }
+
+    .pattern-card {
+      background: var(--bg-surface-elevated);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .pattern-card-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: #e2e8f0;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+
+    .progress-bar-group {
+      margin-bottom: 12px;
+    }
+
+    .progress-labels {
+      display: flex;
+      justify-content: space-between;
+      font-size: 12px;
+      color: var(--text-secondary);
+      margin-bottom: 6px;
+      font-weight: 500;
+    }
+
+    .progress-track {
+      height: 8px;
+      background: rgba(255, 255, 255, 0.06);
+      border-radius: 4px;
+      overflow: hidden;
+      display: flex;
+    }
+
+    .progress-segment {
+      height: 100%;
+      transition: width 0.3s ease;
+    }
+
+    .pattern-takeaway {
+      font-size: 13px;
+      color: var(--text-secondary);
+      line-height: 1.5;
+      padding-top: 10px;
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .pattern-takeaway strong {
+      color: var(--text-primary);
+    }
+
+    /* Key Insights Box */
+    .insights-strip {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 16px;
+    }
+
+    .insight-card {
+      background: rgba(99, 102, 241, 0.04);
+      border: 1px solid rgba(99, 102, 241, 0.15);
+      border-radius: var(--radius-md);
+      padding: 18px;
+    }
+
+    .insight-card h4 {
+      font-size: 14px;
+      font-weight: 700;
+      color: #c7d2fe;
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .insight-card p {
+      font-size: 13px;
+      color: var(--text-secondary);
+      line-height: 1.5;
+    }
+
+    /* Table Toolbar */
+    .toolbar {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .search-box {
+      flex: 1;
+      min-width: 240px;
+      position: relative;
+    }
+
+    .search-input {
+      width: 100%;
+      background: var(--bg-surface-elevated);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-sm);
+      padding: 10px 14px 10px 36px;
+      font-size: 13px;
+      color: var(--text-primary);
+      font-family: inherit;
+      outline: none;
+      transition: border-color 0.15s ease;
+    }
+
+    .search-input:focus {
+      border-color: var(--accent-primary);
+    }
+
+    .search-icon {
+      position: absolute;
+      left: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-muted);
+      font-size: 14px;
+      pointer-events: none;
+    }
+
+    .filter-select {
+      background: var(--bg-surface-elevated);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-sm);
+      padding: 10px 14px;
+      font-size: 13px;
+      color: var(--text-primary);
+      font-family: inherit;
+      outline: none;
+      cursor: pointer;
+    }
+
+    .filter-select:focus {
+      border-color: var(--accent-primary);
+    }
+
+    .results-count {
+      font-size: 13px;
+      color: var(--text-muted);
+      font-weight: 500;
+      margin-left: auto;
+    }
+
+    /* Matrix Table */
+    .table-container {
+      overflow-x: auto;
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      background: var(--bg-surface-elevated);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+      text-align: left;
+    }
+
+    th {
+      background: rgba(17, 22, 34, 0.95);
+      color: var(--text-secondary);
+      font-weight: 600;
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--border-subtle);
+      white-space: nowrap;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      user-select: none;
+      cursor: pointer;
+    }
+
+    th:hover {
+      color: var(--text-primary);
+    }
+
+    td {
+      padding: 12px 16px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+      color: var(--text-secondary);
+      vertical-align: middle;
+    }
+
+    tr:hover td {
+      background: rgba(255, 255, 255, 0.02);
+    }
+
+    .app-name-cell {
+      font-weight: 600;
+      color: var(--text-primary);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .app-category-badge {
+      font-size: 11px;
+      color: var(--text-muted);
+      font-weight: 500;
+      display: block;
+      margin-top: 2px;
+    }
+
+    /* Badges */
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 3px 8px;
+      border-radius: 4px;
+      font-size: 11px;
+      font-weight: 600;
+      white-space: nowrap;
+      border: 1px solid transparent;
+      letter-spacing: 0.2px;
+    }
+
+    .badge-buildable-now {
+      background: var(--badge-green-bg);
+      color: var(--badge-green-text);
+      border-color: var(--badge-green-border);
+    }
+
+    .badge-friction {
+      background: var(--badge-yellow-bg);
+      color: var(--badge-yellow-text);
+      border-color: var(--badge-yellow-border);
+    }
+
+    .badge-blocked {
+      background: var(--badge-red-bg);
+      color: var(--badge-red-text);
+      border-color: var(--badge-red-border);
+    }
+
+    .badge-oauth {
+      background: var(--badge-blue-bg);
+      color: var(--badge-blue-text);
+      border-color: var(--badge-blue-border);
+    }
+
+    .badge-apikey {
+      background: var(--badge-purple-bg);
+      color: var(--badge-purple-text);
+      border-color: var(--badge-purple-border);
+    }
+
+    .badge-mcp-official {
+      background: rgba(6, 182, 212, 0.15);
+      color: #38bdf8;
+      border-color: rgba(6, 182, 212, 0.3);
+    }
+
+    .badge-mcp-community {
+      background: rgba(148, 163, 184, 0.15);
+      color: #cbd5e1;
+      border-color: rgba(148, 163, 184, 0.25);
+    }
+
+    .badge-mcp-no {
+      background: rgba(100, 116, 139, 0.1);
+      color: #94a3b8;
+    }
+
+    .confidence-meter {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      color: var(--text-primary);
+    }
+
+    .confidence-bar-bg {
+      width: 44px;
+      height: 4px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 2px;
+      overflow: hidden;
+    }
+
+    .confidence-bar-fill {
+      height: 100%;
+      background: var(--accent-emerald);
+    }
+
+    .details-btn {
+      background: transparent;
+      border: 1px solid var(--border-subtle);
+      color: var(--text-secondary);
+      border-radius: 4px;
+      padding: 4px 8px;
+      font-size: 11px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .details-btn:hover {
+      background: rgba(255, 255, 255, 0.05);
+      color: var(--text-primary);
+      border-color: rgba(255, 255, 255, 0.2);
+    }
+
+    /* Agent Architecture Section */
+    .arch-diagram {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 16px;
+      margin-bottom: 24px;
+      position: relative;
+    }
+
+    .arch-step {
+      background: var(--bg-surface-elevated);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 20px;
+      position: relative;
+    }
+
+    .step-num {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: var(--accent-primary);
+      color: white;
+      font-size: 12px;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+
+    .step-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 6px;
+    }
+
+    .step-desc {
+      font-size: 13px;
+      color: var(--text-secondary);
+      line-height: 1.5;
+    }
+
+    .code-pill {
+      display: inline-block;
+      background: rgba(0, 0, 0, 0.4);
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: #93c5fd;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      margin-top: 6px;
+    }
+
+    .human-agent-split {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      margin-top: 20px;
+    }
+
+    @media (max-width: 768px) {
+      .human-agent-split {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .split-card {
+      background: var(--bg-surface-elevated);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 20px;
+    }
+
+    .split-card.agent-card {
+      border-left: 4px solid var(--accent-secondary);
+    }
+
+    .split-card.human-card {
+      border-left: 4px solid var(--accent-amber);
+    }
+
+    .split-title {
+      font-size: 14px;
+      font-weight: 700;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .split-list {
+      list-style: none;
+    }
+
+    .split-list li {
+      font-size: 13px;
+      color: var(--text-secondary);
+      margin-bottom: 8px;
+      position: relative;
+      padding-left: 18px;
+      line-height: 1.5;
+    }
+
+    .split-list li::before {
+      content: '✓';
+      position: absolute;
+      left: 0;
+      color: var(--accent-emerald);
+      font-weight: bold;
+    }
+
+    .split-card.human-card .split-list li::before {
+      content: '★';
+      color: var(--accent-amber);
+    }
+
+    /* Verification Honesty Section */
+    .honesty-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+      margin-top: 16px;
+    }
+
+    .honesty-table th {
+      background: var(--bg-surface-elevated);
+      padding: 10px 14px;
+    }
+
+    .honesty-table td {
+      padding: 12px 14px;
+      background: rgba(255, 255, 255, 0.01);
+    }
+
+    /* Modal / Drawer */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(4px);
+      z-index: 100;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .modal-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      max-width: 680px;
+      width: 100%;
+      padding: 28px;
+      box-shadow: var(--shadow-subtle), var(--shadow-glow);
+      position: relative;
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      font-size: 20px;
+      cursor: pointer;
+    }
+
+    .modal-close:hover {
+      color: var(--text-primary);
+    }
+
+    .modal-header {
+      display: flex;
+      align-items: baseline;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .modal-app-name {
+      font-size: 24px;
+      font-weight: 800;
+      color: var(--text-primary);
+    }
+
+    .modal-row {
+      margin-bottom: 14px;
+    }
+
+    .modal-row-label {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 4px;
+    }
+
+    .modal-row-content {
+      font-size: 14px;
+      color: var(--text-secondary);
+      line-height: 1.5;
+    }
+
+    /* Code Block */
+    pre.code-snippet {
+      background: #05070a;
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-sm);
+      padding: 16px;
+      overflow-x: auto;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13px;
+      color: #38bdf8;
+      margin-top: 12px;
+    }
+
+    /* Footer */
+    footer {
+      border-top: 1px solid var(--border-subtle);
+      padding: 40px 0 60px;
+      text-align: center;
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      margin-top: 12px;
+    }
+  </style>
+</head>
+<body>
+  <div class="glow-bg"></div>
+
+  <!-- Header -->
+  <header>
+    <div class="container nav-inner">
+      <div class="logo-group">
+        <span class="logo-badge">COMPOSIO</span>
+        <span class="brand-title">App Research Pipeline Case Study</span>
+      </div>
+      <div class="nav-links">
+        <a href="#patterns" class="nav-link">Findings & Patterns</a>
+        <a href="#matrix" class="nav-link">100-App Matrix</a>
+        <a href="#architecture" class="nav-link">Agent Architecture</a>
+        <a href="#verification" class="nav-link">Verification</a>
+        <a href="https://github.com/krbok/Composio" target="_blank" class="btn btn-outline">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+          GitHub Repo
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <!-- Hero Section -->
+    <section class="hero">
+      <div class="hero-tag">
+        <span class="dot"></span> 100 Apps Researched &bull; Verified Agent Loop
+      </div>
+      <h1>Can It Be a Composio Agent Toolkit?</h1>
+      <p>
+        Evaluating 100 top enterprise and developer platforms across 10 categories for auth mechanics, multi-tenant gating, API surfaces, and first-party Model Context Protocol (MCP) support. Built using Claude Agent SDK and Composio's free search tools.
+      </p>
+
+      <!-- Stat Cards -->
+      <div class="stat-grid">
+        <div class="stat-card" style="--accent-gradient: linear-gradient(90deg, #10b981, #06b6d4)">
+          <div class="stat-value">65<span class="stat-unit">%</span></div>
+          <div class="stat-label">Buildable Immediately</div>
+          <div class="stat-desc">Self-serve multi-tenant OAuth/API key</div>
+        </div>
+
+        <div class="stat-card" style="--accent-gradient: linear-gradient(90deg, #6366f1, #a855f7)">
+          <div class="stat-value">66<span class="stat-unit">%</span></div>
+          <div class="stat-label">OAuth2 Dominance</div>
+          <div class="stat-desc">Standard multi-tenant authorization code</div>
+        </div>
+
+        <div class="stat-card" style="--accent-gradient: linear-gradient(90deg, #06b6d4, #3b82f6)">
+          <div class="stat-value">73<span class="stat-unit">%</span></div>
+          <div class="stat-label">Official MCP Support</div>
+          <div class="stat-desc">First-party server or remote endpoint</div>
+        </div>
+
+        <div class="stat-card" style="--accent-gradient: linear-gradient(90deg, #f59e0b, #f43f5e)">
+          <div class="stat-value">32<span class="stat-unit">%</span></div>
+          <div class="stat-label">Gated with Friction</div>
+          <div class="stat-desc">Admin review, partner approval, paid plan</div>
+        </div>
+
+        <div class="stat-card" style="--accent-gradient: linear-gradient(90deg, #f43f5e, #94a3b8)">
+          <div class="stat-value">3<span class="stat-unit">%</span></div>
+          <div class="stat-label">Strictly Blocked</div>
+          <div class="stat-desc">Salesforce B2C, Ahrefs Connect, Sherlock CLI</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Findings & Patterns Section -->
+    <section id="patterns" class="section-box">
+      <div class="section-header">
+        <div>
+          <h2 class="section-title">Headline Patterns & Macro Insights</h2>
+          <p class="section-subtitle">Key architectural takeaways from clustering 100 enterprise and developer platforms.</p>
+        </div>
+      </div>
+
+      <div class="patterns-grid">
+        <!-- Auth Mix Pattern -->
+        <div class="pattern-card">
+          <div class="pattern-card-title">
+            <span>🔑 Authentication Protocol Mix</span>
+          </div>
+          <div class="progress-bar-group">
+            <div class="progress-labels">
+              <span>OAuth2 (66%)</span>
+              <span>API Key (28%)</span>
+              <span>Basic/Other (6%)</span>
+            </div>
+            <div class="progress-track">
+              <div class="progress-segment" style="width: 66%; background: var(--accent-primary);"></div>
+              <div class="progress-segment" style="width: 28%; background: var(--accent-purple);"></div>
+              <div class="progress-segment" style="width: 6%; background: var(--text-muted);"></div>
+            </div>
+          </div>
+          <div class="pattern-takeaway">
+            <strong>The Takeaway:</strong> OAuth 2.0 is the undisputed standard for multi-tenant SaaS. API keys dominate developer infra, data scraping, and specialized fintech/AI protocols.
+          </div>
+        </div>
+
+        <!-- Self-Serve vs Gating Pattern -->
+        <div class="pattern-card">
+          <div class="pattern-card-title">
+            <span>🚪 Developer Gating Landscape</span>
+          </div>
+          <div class="progress-bar-group">
+            <div class="progress-labels">
+              <span>Self-Serve (65%)</span>
+              <span>Admin Review (16%)</span>
+              <span>Partner/Paid (19%)</span>
+            </div>
+            <div class="progress-track">
+              <div class="progress-segment" style="width: 65%; background: var(--accent-emerald);"></div>
+              <div class="progress-segment" style="width: 16%; background: var(--accent-amber);"></div>
+              <div class="progress-segment" style="width: 19%; background: var(--accent-rose);"></div>
+            </div>
+          </div>
+          <div class="pattern-takeaway">
+            <strong>The Takeaway:</strong> While 65% are frictionless self-serve, 35% enforce human checkpoints (e.g. app review, marketplace listing, or enterprise subscriptions) before multi-tenant distribution.
+          </div>
+        </div>
+
+        <!-- MCP Ecosystem Pattern -->
+        <div class="pattern-card">
+          <div class="pattern-card-title">
+            <span>⚡ MCP Ecosystem Readiness</span>
+          </div>
+          <div class="progress-bar-group">
+            <div class="progress-labels">
+              <span>Official MCP (73%)</span>
+              <span>Community MCP (24%)</span>
+              <span>No MCP (3%)</span>
+            </div>
+            <div class="progress-track">
+              <div class="progress-segment" style="width: 73%; background: var(--accent-secondary);"></div>
+              <div class="progress-segment" style="width: 24%; background: #94a3b8;"></div>
+              <div class="progress-segment" style="width: 3%; background: rgba(255,255,255,0.1);"></div>
+            </div>
+          </div>
+          <div class="pattern-takeaway">
+            <strong>The Takeaway:</strong> Over 70% of platforms now publish first-party MCP servers (HubSpot, Stripe, Brex, Ramp, Xero, Smartsheet, Consensus, Devin), establishing MCP as a primary agent interface.
+          </div>
+        </div>
+      </div>
+
+      <!-- Deep Dive Insights -->
+      <div class="insights-strip">
+        <div class="insight-card">
+          <h4>1. The "Personal App" Illusion</h4>
+          <p>
+            Many platforms (e.g., Zendesk, Close, Copper, Pipedrive) let single developers spin up private OAuth apps instantly, but building a <em>multi-tenant toolkit</em> (where arbitrary third-party users authorize their own accounts) requires global client conversion, marketplace review, or partner agreements.
+          </p>
+        </div>
+
+        <div class="insight-card">
+          <h4>2. Category Polarization</h4>
+          <p>
+            <strong>Developer Infra</strong> (Vercel, Supabase, Cloudflare) and <strong>Productivity</strong> (Notion, Linear, Harvest) are >85% frictionless self-serve. In contrast, <strong>Marketing/Ads</strong> (Meta, Google, LinkedIn) and <strong>Enterprise ERP/CRM</strong> require rigorous app verification and business checks.
+          </p>
+        </div>
+
+        <div class="insight-card">
+          <h4>3. The 3 Hard Blockers</h4>
+          <p>
+            Only 3 apps are strictly blocked: <em>Salesforce Commerce Cloud</em> (closed on-demand sandboxes requiring commercial contracts), <em>Ahrefs Connect</em> (strictly mandates an Enterprise tier + sales review for OAuth), and <em>Sherlock</em> (open-source local CLI with no hosted service).
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Interactive 100-App Matrix Table -->
+    <section id="matrix" class="section-box">
+      <div class="section-header">
+        <div>
+          <h2 class="section-title">The 100-App Buildability Matrix</h2>
+          <p class="section-subtitle">Complete, filterable findings researched and validated across all 10 categories.</p>
+        </div>
+        <button id="exportJsonBtn" class="btn btn-outline">Export JSON</button>
+      </div>
+
+      <!-- Filter Toolbar -->
+      <div class="toolbar">
+        <div class="search-box">
+          <span class="search-icon">🔍</span>
+          <input type="text" id="searchInput" class="search-input" placeholder="Search app, category, one-liner, or blocker..." />
+        </div>
+
+        <select id="categoryFilter" class="filter-select">
+          <option value="">All Categories (10)</option>
+          <option value="CRM and Sales">1. CRM & Sales</option>
+          <option value="Support and Helpdesk">2. Support & Helpdesk</option>
+          <option value="Communications and Messaging">3. Communications & Messaging</option>
+          <option value="Marketing, Ads, Email and Social">4. Marketing & Ads</option>
+          <option value="Ecommerce">5. Ecommerce</option>
+          <option value="Data, SEO and Scraping">6. Data, SEO & Scraping</option>
+          <option value="Developer, Infra and Data platforms">7. Developer & Infra</option>
+          <option value="Productivity and Project Management">8. Productivity & PM</option>
+          <option value="Finance and Fintech">9. Finance & Fintech</option>
+          <option value="AI, Research and Media-native">10. AI & Media-native</option>
+        </select>
+
+        <select id="buildFilter" class="filter-select">
+          <option value="">All Buildability</option>
+          <option value="buildable-now">Buildable Now (65)</option>
+          <option value="buildable-with-friction">With Friction (32)</option>
+          <option value="blocked">Blocked (3)</option>
+        </select>
+
+        <select id="authFilter" class="filter-select">
+          <option value="">All Auth Methods</option>
+          <option value="OAuth2">OAuth2</option>
+          <option value="API key">API Key</option>
+          <option value="Basic">Basic</option>
+          <option value="other">Other / CLI</option>
+        </select>
+
+        <select id="mcpFilter" class="filter-select">
+          <option value="">All MCP Status</option>
+          <option value="yes-official">Official MCP</option>
+          <option value="yes-community">Community MCP</option>
+          <option value="no">No MCP</option>
+        </select>
+
+        <span id="resultsCounter" class="results-count">Showing 100 of 100 apps</span>
+      </div>
+
+      <!-- Matrix Table -->
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th onclick="sortTable('app')"># / App ⬍</th>
+              <th onclick="sortTable('category')">Category ⬍</th>
+              <th onclick="sortTable('auth_method')">Auth ⬍</th>
+              <th onclick="sortTable('self_serve_status')">Gating ⬍</th>
+              <th onclick="sortTable('api_surface')">Surface ⬍</th>
+              <th onclick="sortTable('has_mcp')">MCP ⬍</th>
+              <th onclick="sortTable('buildability')">Buildability ⬍</th>
+              <th onclick="sortTable('confidence')">Confidence ⬍</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="matrixTableBody">
+            <!-- Rows injected by JavaScript -->
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Agent Architecture & Process Section -->
+    <section id="architecture" class="section-box">
+      <div class="section-header">
+        <div>
+          <h2 class="section-title">Agent Architecture & Isolation</h2>
+          <p class="section-subtitle">How Claude Agent SDK was orchestrated with Composio search tools and Pydantic validation.</p>
+        </div>
+      </div>
+
+      <div class="arch-diagram">
+        <div class="arch-step">
+          <div class="step-num">1</div>
+          <div class="step-title">Autonomous Search Loop</div>
+          <div class="step-desc">
+            Equipped Claude with free, unauthenticated Composio tools (<span class="code-pill">COMPOSIO_SEARCH_WEB</span> & <span class="code-pill">FETCH_URL_CONTENT</span>) to find and parse official documentation.
+          </div>
+        </div>
+
+        <div class="arch-step">
+          <div class="step-num">2</div>
+          <div class="step-title">Multi-Tenant Evaluation</div>
+          <div class="step-desc">
+            Enforced strict judging criteria targeting multi-tenant distribution rather than private developer access. Mandatory dedicated searches for official/community MCP servers.
+          </div>
+        </div>
+
+        <div class="arch-step">
+          <div class="step-num">3</div>
+          <div class="step-title">Pydantic Tool Boundary</div>
+          <div class="step-desc">
+            Turn completed by invoking <span class="code-pill">submit_finding</span>. Enums and URL schemas validated directly at the tool-call boundary; invalid values trigger immediate re-prompting.
+          </div>
+        </div>
+
+        <div class="arch-step">
+          <div class="step-num">4</div>
+          <div class="step-title">Dual-Signal Verification</div>
+          <div class="step-desc">
+            Output cross-checked against Composio's real catalog (<span class="code-pill">composio.toolkits.get</span>) and an independent secondary WebSearch/WebFetch pass to detect non-determinism.
+          </div>
+        </div>
+      </div>
+
+      <div class="human-agent-split">
+        <div class="split-card agent-card">
+          <div class="split-title">
+            <span>🤖 What the Agent Handled Autonomously</span>
+          </div>
+          <ul class="split-list">
+            <li>Parsed 100+ complex developer portals, auth guides, and API schemas.</li>
+            <li>Identified obscure multi-tenant gating policies (e.g., Zendesk Global OAuth client review requirements).</li>
+            <li>Discovered active first-party MCP servers (73% of sample) from newly published 2024-2026 endpoints.</li>
+            <li>Extracted direct documentation evidence URLs actually fetched during execution.</li>
+          </ul>
+        </div>
+
+        <div class="split-card human-card">
+          <div class="split-title">
+            <span>👤 Where Human Engineering Was Needed</span>
+          </div>
+          <ul class="split-list">
+            <li><strong>Tool Sandboxing & Isolation:</strong> Claude CLI subprocess was stripping environmental API keys to prevent unintended metered billing and bypass ambient tool leakage.</li>
+            <li><strong>Multi-tenant Definition Guardrails:</strong> System prompt required refinement to stop agents from rounding up "private personal API key" paths to "self-serve multi-tenant".</li>
+            <li><strong>Reconciliation of Catalog Disagreements:</strong> Diagnosed why 6 apps differed from Composio's legacy API-key catalog entries.</li>
+            <li><strong>Resumable Pipeline Architecture:</strong> Implemented incremental disk flushing to recover gracefully from rate limits without data loss.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Verification & Accuracy Honesty Section -->
+    <section id="verification" class="section-box">
+      <div class="section-header">
+        <div>
+          <h2 class="section-title">Verification Honesty & Catalog Cross-Check</h2>
+          <p class="section-subtitle">Transparent accounting of hits, misses, and catalog discrepancies.</p>
+        </div>
+      </div>
+
+      <p style="font-size: 14px; color: var(--text-secondary); margin-bottom: 16px;">
+        To ensure high empirical accuracy, we cross-checked the agent's findings against Composio's deterministic catalog (<span class="code-pill">composio.toolkits.get</span>) and performed secondary browser/search passes. Out of 50 matched toolkits, 44 agreed immediately. The 6 disagreements revealed an important truth:
+      </p>
+
+      <div class="table-container">
+        <table class="honesty-table">
+          <thead>
+            <tr>
+              <th>App</th>
+              <th>Agent Finding</th>
+              <th>Composio Catalog</th>
+              <th>Root Cause & Accuracy Verdict</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Close CRM</strong></td>
+              <td><span class="badge badge-oauth">OAuth2</span> (admin-approval)</td>
+              <td><span class="badge badge-apikey">API_KEY</span></td>
+              <td><strong>Agent is more accurate for multi-tenancy.</strong> Composio uses single-user API keys. True multi-tenant Close apps require Close approval to become public OAuth apps.</td>
+            </tr>
+            <tr>
+              <td><strong>Front</strong></td>
+              <td><span class="badge badge-oauth">OAuth2</span> (partner-gated)</td>
+              <td><span class="badge badge-apikey">API_KEY</span></td>
+              <td><strong>Agent is more accurate for multi-tenancy.</strong> Front supports API keys for internal scripts, but multi-tenant apps require official App Store partner review.</td>
+            </tr>
+            <tr>
+              <td><strong>Ahrefs</strong></td>
+              <td><span class="badge badge-oauth">OAuth2</span> (partner-gated)</td>
+              <td><span class="badge badge-apikey">API_KEY</span></td>
+              <td><strong>Agent is correct.</strong> Ahrefs API v3 supports OAuth2 via "Ahrefs Connect", strictly requiring Enterprise plan + sales approval. API key is personal single-account only.</td>
+            </tr>
+            <tr>
+              <td><strong>Vercel</strong></td>
+              <td><span class="badge badge-oauth">OAuth2</span> (self-serve-free)</td>
+              <td><span class="badge badge-apikey">API_KEY</span></td>
+              <td><strong>Both valid.</strong> Composio uses personal access tokens; Vercel Integrations platform supports self-serve multi-tenant OAuth2 apps.</td>
+            </tr>
+            <tr>
+              <td><strong>Cloudflare</strong></td>
+              <td><span class="badge badge-oauth">OAuth2</span> (self-serve-free)</td>
+              <td><span class="badge badge-apikey">API_KEY</span></td>
+              <td><strong>Both valid.</strong> Cloudflare supports both scoped API Tokens and OAuth 2.0 applications for third-party integrations.</td>
+            </tr>
+            <tr>
+              <td><strong>Consensus</strong></td>
+              <td><span class="badge badge-oauth">OAuth2</span> (self-serve-free)</td>
+              <td><span class="badge badge-apikey">API_KEY</span></td>
+              <td><strong>Agent caught the latest 2025/2026 update.</strong> Consensus released an official OAuth2 PKCE MCP server (<span class="code-pill">mcp.consensus.app/mcp</span>) alongside its legacy REST API key.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Runnable Proof / How to Run Section -->
+    <section class="section-box">
+      <div class="section-header">
+        <div>
+          <h2 class="section-title">Runnable Proof & Reproducibility</h2>
+          <p class="section-subtitle">Step-by-step instructions to run the research agent and reproduce all 100 rows locally.</p>
+        </div>
+      </div>
+
+      <pre class="code-snippet"><code># 1. Clone the repository
+git clone https://github.com/krbok/Composio.git
+cd Composio
+
+# 2. Setup Python environment & Claude CLI
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -e .
+npm install   # Installs local @anthropic-ai/claude-code for reproducible agent execution
+
+# 3. Configure Composio API Key
+cp .env.example .env
+# Edit .env and add: COMPOSIO_API_KEY=your_key_here
+
+# 4. Run the 5-app stress test or the full 100-app research pipeline
+python -m research.stress_test     # Fast 5-app benchmark
+python -m research.run_all         # Resumable 100-app batch runner
+python -m research.verify_stress_test # Dual-pass verification loop</code></pre>
+    </section>
+  </main>
+
+  <!-- Modal for App Deep Dive -->
+  <div id="detailModal" class="modal-overlay" onclick="closeModal(event)">
+    <div class="modal-card" onclick="event.stopPropagation()">
+      <button class="modal-close" onclick="closeModal()">&times;</button>
+      <div class="modal-header">
+        <h3 id="modalAppName" class="modal-app-name">App Name</h3>
+        <span id="modalCategory" class="badge badge-oauth">Category</span>
+      </div>
+
+      <div class="modal-row">
+        <div class="modal-row-label">Summary & Integration Verdict</div>
+        <div id="modalOneLiner" class="modal-row-content"></div>
+      </div>
+
+      <div class="modal-row">
+        <div class="modal-row-label">Multi-Tenant Gating & Main Blocker</div>
+        <div id="modalBlocker" class="modal-row-content"></div>
+      </div>
+
+      <div class="modal-row" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px;">
+        <div>
+          <div class="modal-row-label">Auth Method</div>
+          <div id="modalAuth" class="modal-row-content"></div>
+        </div>
+        <div>
+          <div class="modal-row-label">Self-Serve Status</div>
+          <div id="modalGating" class="modal-row-content"></div>
+        </div>
+        <div>
+          <div class="modal-row-label">API Surface & Breadth</div>
+          <div id="modalSurface" class="modal-row-content"></div>
+        </div>
+        <div>
+          <div class="modal-row-label">MCP Support</div>
+          <div id="modalMcp" class="modal-row-content"></div>
+        </div>
+      </div>
+
+      <div class="modal-row" style="margin-top: 16px; padding-top: 14px; border-top: 1px solid var(--border-subtle);">
+        <div class="modal-row-label">Verified Documentation Evidence</div>
+        <div class="modal-row-content">
+          <a id="modalEvidence" href="#" target="_blank" rel="noopener noreferrer">View Official Docs ↗</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <p>Composio App Research Pipeline &bull; Automated Agent Loop with Dual-Stage Verification</p>
+      <div class="footer-links">
+        <a href="https://github.com/krbok/Composio" target="_blank">GitHub Repository</a>
+        <a href="https://composio.dev" target="_blank">Composio.dev</a>
+        <a href="https://docs.composio.dev" target="_blank">Composio Documentation</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Interactive JavaScript Engine -->
+  <script>
+    const appsData = [{"one_liner": "Salesforce offers a broad, mature REST/SOAP/Bulk/GraphQL API suite secured via OAuth2 Connected Apps that any developer can self-register for free (Developer Edition) and use to let end-users authorize against their own orgs, with official Salesforce-hosted MCP servers also available.", "auth_method": "OAuth2", "self_serve_status": "self-serve-free", "api_surface": "REST", "api_breadth": "broad", "has_mcp": "yes-official", "buildability": "buildable-now", "main_blocker": "", "evidence_url": "https://developer.salesforce.com/docs/platform/connect-rest-api/guide/quickstart.html", "confidence": 0.9, "app": "Salesforce", "category": "CRM and Sales"}, {"one_liner": "HubSpot offers a broad, free, self-serve developer platform with public OAuth2 apps for multi-tenant CRM integrations, extensive REST APIs, and an official remote MCP server.", "auth_method": "OAuth2", "self_serve_status": "self-serve-free", "api_surface": "REST", "api_breadth": "broad", "has_mcp": "yes-official", "buildability": "buildable-now", "main_blocker": "", "evidence_url": "https://developers.hubspot.com/docs/apps/developer-platform/build-apps/authentication/oauth/oauth-quickstart-guide", "confidence": 0.95, "app": "HubSpot", "category": "CRM and Sales"}, {"one_liner": "Pipedrive offers a broad REST API with OAuth2 for Marketplace apps; multi-tenant OAuth apps can be created and self-tested instantly in a sandbox, but require Pipedrive's app-review/approval before real external users can authorize/install them.", "auth_method": "OAuth2", "self_serve_status": "admin-approval", "api_surface": "REST", "api_breadth": "broad", "has_mcp": "yes-official", "buildability": "buildable-with-friction", "main_blocker": "You can register a public OAuth app and get client_id/client_secret immediately, but per Pipedrive's own docs, app testing/authorization only works for users within your own developer sandbox account and \"cannot be shared with external users.\" To let real end-users (multi-tenant) authorize the app, the app must first go through Pipedrive's Marketplace app-review/approval process (human review, Developer Partner Agreement) - it can remain 'unpublished' (not listed) but still needs approval to be installable by external accounts.", "evidence_url": "https://pipedrive.readme.io/docs/marketplace-registering-the-app", "confidence": 0.85, "app": "Pipedrive", "category": "CRM and Sales"}, {"one_liner": "Attio is a CRM with a full REST API and OAuth2 support for building multi-tenant integrations, plus an official hosted MCP server.", "auth_method": "OAuth2", "self_serve_status": "self-serve-free", "api_surface": "REST", "api_breadth": "broad", "has_mcp": "yes-official", "buildability": "buildable-now", "main_blocker": "", "evidence_url": "https://docs.attio.com/rest-api/tutorials/connect-an-app-through-oauth", "confidence": 0.95, "app": "Attio", "category": "CRM and Sales"}, {"one_liner": "Twenty CRM offers full REST + GraphQL APIs (schema-per-tenant) with OAuth2 (auth code+PKCE, dynamic client registration via RFC 7591) for multi-user integrations, plus API keys for single-workspace scripts.", "auth_method": "OAuth2", "self_serve_status": "self-serve-free", "api_surface": "REST", "api_breadth": "broad", "has_mcp": "yes-community", "buildability": "buildable-now", "main_blocker": "", "evidence_url": "https://docs.twenty.com/developers/extend/oauth", "confidence": 0.93, "app": "Twenty", "category": "CRM and Sales"}, {"one_liner": "Podio (Citrix's collaborative work platform) offers a full REST API with OAuth2 (server-side, client-side, app, and password flows) for managing workspaces, apps, items, tasks, and files, self-serve via free API key/app registration.", "auth_method": "OAuth2", "self_serve_status": "self-serve-free", "api_surface": "REST", "api_breadth": "broad", "has_mcp": "yes-official", "buildability": "buildable-now", "main_blocker": "", "evidence_url": "https://developers.podio.com/authentication", "confidence": 0.92, "app": "Podio", "category": "CRM and Sales"}, {"one_liner": "Zoho CRM offers a broad REST API (v8) with standard OAuth 2.0 authentication, self-serve public/server-based app registration via the Zoho Developer Console, and even ships official MCP servers for AI agent access.", "auth_method": "OAuth2", "self_serve_status": "self-serve-free", "api_surface": "REST", "api_breadth": "broad", "has_mcp": "yes-official", "buildability": "buildable-now", "main_blocker": "", "evidence_url": "https://www.zoho.com/crm/developer/docs/api/v8/register-client.html", "confidence": 0.95, "app": "Zoho CRM", "category": "CRM and Sales"}, {"one_liner": "Close CRM offers a standard REST API with API-key (Basic Auth) and OAuth2 authentication, but multi-tenant OAuth access (letting OTHER Close customers connect their own accounts) requires Close's approval to make your OAuth app \"public,\" making it admin-approval gated rather than fully self-serve.", "auth_method": "OAuth2", "self_serve_status": "admin-approval", "api_surface": "REST", "api_breadth": "broad", "has_mcp": "yes-official", "buildability": "buildable-with-friction", "main_blocker": "OAuth apps are Private by default (only usable within the creator's own Close org). To support multi-tenant use (other Close customers connecting their own accounts, as required for a Composio toolkit), you must \"request to make it public and optionally get listed\" with Close \u2014 a human-reviewed approval step, not instant self-serve. API key auth avoids this but is single-tenant/per-user and not suitable for a scalable multi-tenant OAuth toolkit.", "evidence_url": "https://developer.close.com/integrations/create-an-oauth-app", "confidence": 0.85, "app": "Close", "category": "CRM and Sales"}, {"one_liner": "Copper CRM REST API supports API-key (single-user) auth and OAuth2.0 (multi-tenant) auth, but registering an OAuth app (client_id/client_secret) requires contacting Copper directly for manual approval rather than instant self-serve signup.", "auth_method": "OAuth2", "self_serve_status": "admin-approval", "api_surface": "REST", "api_breadth": "broad", "has_mcp": "yes-community", "buildability": "buildable-with-friction", "main_blocker": "Multi-tenant OAuth2 app registration (client_id/client_secret) is not self-serve: Copper's docs explicitly say \"to register your application, contact us,\" implying manual/admin review before you can obtain OAuth credentials needed for other users to connect their own Copper accounts. Single-user API-key auth is instant/self-serve but is not viable for a multi-tenant toolkit. No official MCP server exists; only community-built ones (e.g., github.com/dazanza/copper-mcp) using API keys.", "evidence_url": "https://developer.copper.com/introduction/oauth/index.html", "confidence": 0.85, "app": "Copper", "category": "CRM and Sales"}, {"one_liner": "DealCloud (Intapp) is an enterprise CRM for dealmaking with a per-tenant REST API (OAuth2 client-credentials) and a new official MCP server, but access requires being an existing paid enterprise customer whose org admin enables API/user-group capabilities \u2014 there is no public self-serve signup.", "auth_method": "OAuth2", "self_serve_status": "admin-approval", "api_surface": "REST", "api_breadth": "moderate", "has_mcp": "yes-official", "buildability": "buildable-with-friction", "main_blocker": "DealCloud is sold as enterprise software with no public free trial/self-serve sandbox (confirmed via Intapp's \"Enterprise offering\" page: pricing/sandbox access requires contacting an Intapp rep). Within an existing customer's own DealCloud \"site,\" an org admin must enable the \"API\" capability for a user group in User Management, then the individual user enables their own API Key in profile settings to use the OAuth2 client_credentials flow \u2014 this is self-serve only from the perspective of an already-onboarded enterprise customer's admin, not for an arbitrary external developer/multi-tenant integrator. Each end-customer's own admin would need to grant API access per tenant, which is workable but requires per-tenant admin cooperation rather than a single public OAuth app registration.", "evidence_url": "https://api.docs.dealcloud.com/docs/apikeys", "confidence": 0.75, "app": "DealCloud", "category": "CRM and Sales"}, {"one_liner": "Zendesk offers a broad REST API (Support, Tickets, Users, etc.) authenticated via OAuth2, but true multi-tenant (many end-users connecting their own accounts) integrations require a \"global OAuth client\" that Zendesk itself must manually approve and convert from a local client via the Marketplace portal \u2014 self-serve local OAuth clients only work for a single account/internal use.", "auth_method": "OAuth2", "self_serve_status": "admin-approval", "api_surface": "REST", "api_breadth": "broad", "has_mcp": "yes-community", "buildability": "buildable-with-friction", "main_blocker": "Multi-tenant use (an app where many different Zendesk customers connect their own accounts) requires a \"global OAuth client,\" which developers cannot create themselves \u2014 they must build with a local OAuth client first, then submit a request via the Zendesk Marketplace portal for Zendesk's Marketplace Operations team to review, approve, and convert it to global. Regular self-serve OAuth clients are restricted to a single Zendesk account/internal use and explicitly prohibited (per Developer Terms) from being shared across customers.", "evidence_url": "https://developer.zendesk.com/documentation/marketplace/building-a-marketplace-app/set-up-a-global-oauth-client/", "confidence": 0.9, "app": "Zendesk", "category": "Support and Helpdesk"}, {"one_liner": "Intercom offers a broad REST API with OAuth2 for public (multi-tenant) apps and access tokens for private single-workspace apps; building a multi-tenant integration requires Intercom's own app review (up to 7 business days) before the OAuth app can be used by any customer other than the developer, even if unlisted from the App Store.", "auth_method": "OAuth2", "self_serve_status": "admin-approval", "api_surface": "REST", "api_breadth": "broad", "has_mcp": "yes-official", "buildability": "buildable-with-friction", "main_blocker": "Any \"public app\" (one that other Intercom customers/workspaces will authorize, i.e. what a multi-tenant Composio toolkit needs) must be submitted to Intercom's team for review and approval \u2014 a human review that can take up to 7 business days \u2014 before it can be used by anyone besides the developer's own workspace, even if the app is kept unlisted from the App Store. Only single-tenant \"private apps\" (own workspace access token, no OAuth needed) are instantly self-serve.", "evidence_url": "https://developers.intercom.com/docs/publish-to-the-app-store/review-publish-your-app", "confidence": 0.9, "app": "Intercom", "category": "Support and Helpdesk"}, {"one_liner": "Freshdesk offers a broad REST API (tickets, contacts, agents, KB, etc.) authenticated via per-account API key, freely self-serve for any customer/agent.", "auth_method": "API key", "self_serve_status": "self-serve-free", "api_surface": "REST", "api_breadth": "broad", "has_mcp": "yes-official", "buildability": "buildable-now", "main_blocker": "", "evidence_url": "https://developer.freshdesk.com/api/", "confidence": 0.9, "app": "Freshdesk", "category": "Support and Helpdesk"}, {"one_liner": "Front is a customer-communication/helpdesk platform with a broad REST \"Core API\" (conversations, inboxes, contacts, tags, comments, channels) and an official OAuth2 app framework, plus an official beta MCP server, but multi-tenant OAuth apps (so other companies' users can connect their own Front accounts) must be published to Front's App Store via a partner review process rather than being instantly self-serve.", "auth_method": "OAuth2", "self_serve_status": "partner-gated", "api_surface": "REST", "api_breadth": "broad", "has_mcp": "yes-official", "buildability": "buildable-with-friction", "main_blocker": "A developer can create an OAuth app for free and get a Client ID/Secret instantly, but by default apps are \"private to the Front instance they are created in\" \u2014 i.e. only usable for one company's own Front account. To let OTHER Front customers (multi-tenant) authorize and connect their own accounts through the integration, the app must be published on Front's App Store, which requires submitting the integration to Front's partnerships team for technical/security/legal review (Front explicitly reserves the right to refuse integrations). This is a human-reviewed partner/listing process, not instant self-serve.", "evidence_url": "https://dev.frontapp.com/docs/partnering-with-front", "confidence": 0.85, "app": "Front", "category": "Support and Helpdesk"}, {"one_liner": "Pylon (usepylon.com) is a support/helpdesk platform with a REST API authenticated via per-org Bearer API tokens generated by an Admin in the dashboard, covering a broad set of resources (issues, accounts, contacts, teams, custom objects, macros, webhooks, etc.), plus an official OAuth-based hosted MCP server.", "auth_method": "API key", "self_serve_status": "self-serve-free", "api_surface": "REST", "api_breadth": "broad", "has_mcp": "yes-official", "buildability": "buildable-now", "main_blocker": "", "evidence_url": "https://docs.usepylon.com/pylon-docs/developer/api/authentication", "confidence": 0.85, "app": "Pylon", "category": "Support and Helpdesk"}, {"one_liner": "LiveAgent offers a broad REST API (v1 deprecated, v3 current) authenticated via account-generated API keys, covering tickets/conversations, customers, companies, knowledgebase, tags, and reports, plus an official built-in MCP server for AI agent access.", "auth_method": "API key", "self_serve_status": "self-serve-free", "api_surface": "REST", "api_breadth": "broad", "has_mcp": "yes-official", "buildability": "buildable-now", "main_blocker": "", "evidence_url": "https://support.liveagent.com/840770-Complete-API-reference", "confidence": 0.85, "app": "LiveAgent", "category": "Support and Helpdesk"}, {"one_liner": "Plain is a B2B customer support/helpdesk platform exposing a GraphQL API authenticated via per-workspace API keys tied to machine users, with fine-grained role-based permissions.", "auth_method": "API key", "self_serve_status": "self-serve-free", "api_surface": "GraphQL", "api_breadth": "broad", "has_mcp": "yes-official", "buildability": "buildable-now", "main_blocker": "", "evidence_url": "https://www.plain.com/docs/agents/machine-users", "confidence": 0.9, "app": "Plain", "category": "Support and Helpdesk"}, {"one_liner": "Help Scout offers a broad REST API (Inbox/Mailbox API 2.0 + Docs API) with standard OAuth2 (Authorization Code flow for public/multi-tenant integrations, Client Credentials for internal use), free self-serve app registration, and an official GA MCP server for AI assistants.", "auth_method": "OAuth2", "self_serve_status": "self-serve-free", "api_surface": "REST", "api_breadth": "broad", "has_mcp": "yes-official", "buildability": "buildable-now", "main_blocker": "", "evidence_url": "https://developer.helpscout.com/mailbox-api/overview/authentication/", "confidence": 0.93, "app": "Help Scout", "category": "Support and Helpdesk"}, {"one_liner": "Gorgias helpdesk API supports REST with Basic Auth (private/personal use) or OAuth2 (public apps); multi-tenant integrations require submitting an app for Gorgias team review and App Store listing before other users can connect their accounts.", "auth_method": "OAuth2", "self_serve_status": "partner-gated", "api_surface": "REST", "api_breadth": "broad", "has_mcp": "yes-official", "buildability": "buildable-with-friction", "main_blocker": "To let OTHER users (multi-tenant) connect their own Gorgias accounts via OAuth2, you must register as a public app in the Gorgias Developer Portal, submit a draft app, and pass a review by the Gorgias team before it is listed in their App Store and installable by end users. Basic Auth with API key only works for accessing your own single account (not multi-tenant).", "evidence_url": "https://developers.gorgias.com/docs/set-up-oauth2-app-store", "confidence": 0.9, "app": "Gorgias", "category": "Support and Helpdesk"}, {"one_liner": "Gladly offers a broad REST API (agents, conversations, customers, payments, etc.) authenticated via per-organization Basic Auth API tokens that any Gladly admin can generate for their own instance\u2014no OAuth app review or partnership needed.", "auth_method": "Basic", "self_serve_status": "self-serve-free", "api_surface": "REST", "api_breadth": "broad", "has_mcp": "yes-community", "buildability": "buildable-now", "main_blocker": "Each end-customer (tenant) must have a Gladly admin grant the \"API User\" permission to an agent profile and generate an API token in their own Gladly instance (Settings > More settings > API Tokens); there is no centralized OAuth flow, so onboarding each tenant requires them to manually create and share this token/agent-email pair rather than a one-click OAuth consent.", "evidence_url": "https://developer.gladly.com/rest/", "confidence": 0.85, "app": "Gladly", "category": "Support and Helpdesk"}, {"one_liner": "Slack provides a broad, well-documented Web API with standard public OAuth2 v2 flow for multi-tenant app installation, plus an official MCP server.", "auth_method": "OAuth2", "self_serve_status": "self-serve-free", "api_surface": "REST", "api_breadth": "broad", "has_mcp": "yes-official", "buildability": "buildable-now", "main_blocker": "", "evidence_url": "http://docs.slack.dev/authentication/installing-with-oauth", "confidence": 0.95, "app": "Slack", "category": "Communications and Messaging"}, {"one_liner": "Twilio provides broad REST APIs (SMS, Voice, Video, Verify, etc.) authenticated via Account SID + Auth Token or scoped API Key/Secret (HTTP Basic auth), with free instant self-serve signup and credential creation via the Console or REST API.", "auth_method": "Basic", "self_serve_status": "self-serve-free", "api_surface": "REST", "api_breadth": "broad", "has_mcp": "yes-official", "buildability": "buildable-now", "main_blocker": "", "evidence_url": "https://www.twilio.com/docs/iam/api-keys", "confidence": 0.9, "app": "Twilio", "category": "Communications and Messaging"}, {"one_liner": "Zoho Cliq offers a broad REST API (v2/v3) covering channels, chats, messages, bots, webhooks, users, and datastores, secured via standard Zoho OAuth 2.0 (self-registered API console app), and Zoho now also ships an official Zoho Cliq MCP server.", "auth_method": "OAuth2", "self_serve_status": "self-serve-free", "api_surface": "REST", "api_breadth": "broad", "has_mcp": "yes-official", "buildability": "buildable-now", "main_blocker": "", "evidence_url": "https://www.zoho.com/cliq/help/restapi/v3/oauth/", "confidence": 0.9, "app": "Zoho Cliq", "category": "Communications and Messaging"}, {"one_liner": "Lark Open Platform offers a REST API with OAuth2/tenant-token auth and even an official MCP server, but true multi-tenant \"store apps\" (needed for other orgs' users to connect via a third-party integration) require becoming a verified ISV with strict business criteria and platform review \u2014 self-built custom apps only work within a single tenant.", "auth_method": "OAuth2", "self_serve_status": "partner-gated", "api_surface": "REST", "api_breadth": "broad", "has_mcp": "yes-official", "buildability": "buildable-with-friction", "main_blocker": "To let end-users from OTHER organizations connect their own Lark accounts through an integration, the app must be published as a \"store app\" in the Lark App Directory, which requires becoming an approved ISV (company established 1+ years, 6+ months serving B2B customers, 50+ clients, dedicated team, business license verification, ~3 business day platform review, and a deposit for public listing). Self-built (\"custom\") apps only support a single tenant/org and cannot be used multi-tenant across other companies without this ISV/store-app process, making it partner-gated for a real multi-tenant Composio toolkit despite the underlying REST API and OAuth2/token auth being otherwise straightforward and well documented (and an official MCP server already exists).", "evidence_url": "https://open.larksuite.com/document/uMzNwEjLzcDMx4yM3ATM/uUzNwEjL1cDMx4SN3ATM", "confidence": 0.82, "app": "Lark (Larksuite)", "category": "Communications and Messaging"}, {"one_liner": "Pumble offers a full REST API with OAuth2 app authorization (bot/user scopes) plus a Node SDK/CLI for building apps that let external users install and connect their own workspaces; developer account signup is free/self-serve and OAuth app creation works immediately without requiring marketplace approval.", "auth_method": "OAuth2", "self_serve_status": "self-serve-free", "api_surface": "REST", "api_breadth": "moderate", "has_mcp": "yes-official", "buildability": "buildable-now", "main_blocker": "", "evidence_url": "https://dev-docs.marketplace.cake.com/pumble/build/advanced-concepts.html", "confidence": 0.85, "app": "Pumble", "category": "Communications and Messaging"}, {"one_liner": "Discord provides a full REST API with OAuth2 (authorization code, implicit, client credentials, bot/webhook flows) plus bot tokens, enabling multi-tenant integrations where end-users connect their own Discord accounts/servers.", "auth_method": "OAuth2", "self_serve_status": "self-serve-free", "api_surface": "REST", "api_breadth": "broad", "has_mcp": "yes-community", "buildability": "buildable-now", "main_blocker": "None for standard use; any developer can register an app in the Discord Developer Portal and immediately get a client ID/secret to implement OAuth2 for multi-tenant end-user auth (or bot tokens for server integrations) with no upfront human review. Note: bots wanting privileged intents or presence in 100+ servers must go through Discord's separate bot verification process, but this doesn't block basic OAuth2/API usage.", "evidence_url": "https://docs.discord.com/developers/topics/oauth2", "confidence": 0.9, "app": "Discord", "category": "Communications and Messaging"}, {"one_liner": "Telegram's official Bot API is a simple HTTPS REST interface for building bots, authenticated via a per-bot token obtained instantly and free from @BotFather.", "auth_method": "API key", "self_serve_status": "self-serve-free", "api_surface": "REST", "api_breadth": "broad", "has_mcp": "yes-community", "buildability": "buildable-now", "main_blocker": "", "evidence_url": "https://core.telegram.org/bots/api", "confidence": 0.9, "app": "Telegram", "category": "Communications and Messaging"}, {"one_liner": "WhatsApp Business Platform (Meta Cloud API) offers a broad REST API for messaging, templates, media, and business management, but letting other businesses connect their own WhatsApp accounts through your integration requires Meta App Review (Advanced Access) plus registering as a Tech Provider/Solution Partner and implementing Embedded Signup.", "auth_method": "OAuth2", "self_serve_status": "partner-gated", "api_surface": "REST", "api_breadth": "broad", "has_mcp": "yes-community", "buildability": "buildable-with-friction", "main_blocker": "For a single developer's own WABA, access is easy (create Meta app, generate a system-user token). But for a multi-tenant Composio toolkit where many end-users each connect their own WhatsApp Business account, you must: (1) implement Embedded Signup / OAuth-based onboarding, (2) submit the app for Meta App Review and obtain Advanced Access approval for whatsapp_business_management and whatsapp_business_messaging permissions (a human review), and (3) formally register as a Tech Provider or Solution Partner (business verification, accepting partner terms) before you can onboard external clients' WABAs at all. Without Advanced Access approval, the required permissions don't even appear in the Embedded Signup flow. This is a partner/ISV-gated program, not instant self-serve OAuth.", "evidence_url": "https://developers.facebook.com/docs/whatsapp/solution-providers/", "confidence": 0.9, "app": "WhatsApp Business", "category": "Communications and Messaging"}, {"one_liner": "Aircall's REST API supports Basic Auth (private, single-account) and OAuth2 (public/multi-tenant), but building a multi-tenant Public App requires joining the Aircall Technology Partner Program with a review process before OAuth credentials/app listing are granted.", "auth_method": "OAuth2", "self_serve_status": "partner-gated", "api_surface": "REST", "api_breadth": "broad", "has_mcp": "no", "buildability": "buildable-with-friction", "main_blocker": "To serve multiple end-users (multi-tenant OAuth), a developer must join the Aircall Technology Partner Program and go through Aircall's review/approval process (days to weeks) before receiving OAuth client credentials and app listing. Only the single-account Basic Auth (API key) path is instantly self-serve, which is not sufficient for a multi-tenant Composio toolkit. No official Aircall MCP server exists; only third-party/community implementations were found.", "evidence_url": "https://developer.aircall.io/docs/public-vs-private-app", "confidence": 0.92, "app": "Aircall", "category": "Communications and Messaging"}, {"one_liner": "Vonage (communications APIs for SMS, Voice, Messages, Verify, Video, Number Insight) offers self-serve signup with instant API key/secret for Basic Auth, or JWT auth via Application ID + private key for advanced/webhook use cases \u2014 fully self-serve for multi-tenant integrations.", "auth_method": "API key", "self_serve_status": "self-serve-free", "api_surface": "REST", "api_breadth": "broad", "has_mcp": "yes-official", "buildability": "buildable-now", "main_blocker": "", "evidence_url": "https://developer.vonage.com/en/getting-started/concepts/authentication", "confidence": 0.92, "app": "Vonage", "category": "Communications and Messaging"}, {"one_liner": "Google Ads API: multi-tenant OAuth2 access to manage/query ad accounts, but every integration also requires a Google-issued developer token whose Basic/Standard production access level requires manual review and approval by Google's API compliance team.", "auth_method": "OAuth2", "self_serve_status": "admin-approval", "api_surface": "REST", "api_breadth": "broad", "has_mcp": "yes-official", "buildability": "buildable-with-friction", "main_blocker": "Beyond standard OAuth2 (client ID/secret + refresh token, scope https://www.googleapis.com/auth/adwords), every API call also requires a 22-character developer token issued via the Google Ads manager account API Center. New tokens default to restricted 'Explorer' (limited production calls) or 'Test Account' access; to serve real end-users/customer accounts at scale (Basic or Standard access level) requires submitting an application that is manually reviewed and approved by Google's API compliance team, which can take time and may be rejected. This human-review gate on the developer token applies on top of the OAuth app itself, making true multi-tenant production use admin-approval gated rather than instantly self-serve.", "evidence_url": "https://developers.google.com/google-ads/api/docs/get-started/dev-token", "confidence": 0.9, "app": "Google Ads", "category": "Marketing, Ads, Email and Social"}, {"one_liner": "Meta Marketing API lets apps manage Facebook/Instagram ad campaigns, audiences, and reporting via the Graph API; broad REST surface with OAuth2 access tokens.", "auth_method": "OAuth2", "self_serve_status": "admin-approval", "api_surface": "REST", "api_breadth": "broad", "has_mcp": "yes-official", "buildability": "buildable-with-friction", "main_blocker": "To manage ad accounts belonging to OTHER end-users (multi-tenant), an app defaults to \"Limited Access\" (heavily rate-limited, dev-only, not for production/live advertisers). To reach \"Full Access\" it must pass Meta App Review for the ads_management/ads_read permissions (Advanced Access) plus meet ongoing usage thresholds (500+ calls/15 days, <15% error rate), and apps touching sensitive data also require Business Verification. This is a human-reviewed approval process gating real multi-tenant production use, not an instant self-serve OAuth app.", "evidence_url": "https://developers.facebook.com/docs/marketing-api/get-started/authorization/", "confidence": 0.75, "app": "Meta Ads", "category": "Marketing, Ads, Email and Social"}, {"one_liner": "LinkedIn Marketing/Advertising API (Microsoft Learn docs) provides REST/OAuth2 access to campaigns, ads, reporting, leads, and conversions, but requires LinkedIn's manual review to grant Advertising API product access before any use, plus a further Standard-tier approval (support ticket + demo video) for unrestricted multi-account/multi-tenant campaign management.", "auth_method": "OAuth2", "self_serve_status": "admin-approval", "api_surface": "REST", "api_breadth": "broad", "has_mcp": "yes-community", "buildability": "buildable-with-friction", "main_blocker": "Advertising API access is not self-serve: developers must create an app and apply for the Advertising API product under the Products tab, and LinkedIn reviews/approves each application (\"must be approved\"). Even after approval, the default Development tier only allows edit access to 5 ad accounts and 1 test account creation; full multi-tenant/production capability (unlimited ad accounts) requires a separate Standard tier upgrade via a support ticket with a demo video, and LinkedIn explicitly states it \"reserves the right to review applications and select partners at its discretion\" \u2014 i.e. a human approval gate at every stage, not instant self-serve OAuth app registration.", "evidence_url": "https://learn.microsoft.com/en-us/linkedin/marketing/increasing-access", "confidence": 0.9, "app": "LinkedIn Ads", "category": "Marketing, Ads, Email and Social"}, {"one_liner": "GoHighLevel offers a broad REST API (Contacts, Conversations, Calendars, Opportunities, Payments, Workflows, etc.) via OAuth2 through its Developer Marketplace, plus an official HighLevel MCP Server; multi-tenant Public apps require marketplace/security review once past a small install threshold.", "auth_method": "OAuth2", "self_serve_status": "admin-approval", "api_surface": "REST", "api_breadth": "broad", "has_mcp": "yes-official", "buildability": "buildable-with-friction", "main_blocker": "Registering a developer account and creating an OAuth app (Public or Private) with Client ID/Secret is instant/self-serve, but Private apps are hard-capped at 5 unique agency installs; to support more end-users (true multi-tenant use like a Composio toolkit) the app must either be published as a listed Public app or pass HighLevel's Security Review \u2014 both require human review/approval by GoHighLevel before broader multi-tenant access is granted.", "evidence_url": "https://help.gohighlevel.com/support/solutions/articles/155000000136-how-to-get-started-with-the-developer-s-marketplace", "confidence": 0.78, "app": "GoHighLevel", "category": "Marketing, Ads, Email and Social"}, {"one_liner": "Mailchimp Marketing API supports OAuth2 authorization-code flow (register app for client_id/secret instantly, no review) for multi-tenant access on behalf of other users, plus a simpler API-key auth for single-account use; broad REST API covering campaigns, audiences, automations, e-commerce, reporting.", "auth_method": "OAuth2", "self_serve_status": "self-serve-free", "api_surface": "REST", "api_breadth": "broad", "has_mcp": "yes-community", "buildability": "buildable-now", "main_blocker": "", "evidence_url": "https://mailchimp.com/developer/marketing/guides/access-user-data-oauth-2/", "confidence": 0.95, "app": "Mailchimp", "category": "Marketing, Ads, Email and Social"}, {"one_liner": "Klaviyo offers a full REST API (campaigns, lists, profiles, events, etc.) with self-serve public OAuth apps for multi-tenant access (no approval needed to create/use, only for optional Marketplace listing) plus an official hosted MCP server.", "auth_method": "OAuth2", "self_serve_status": "self-serve-free", "api_surface": "REST", "api_breadth": "broad", "has_mcp": "yes-official", "buildability": "buildable-now", "main_blocker": "", "evidence_url": "https://developers.klaviyo.com/en/docs/set_up_oauth", "confidence": 0.93, "app": "Klaviyo", "category": "Marketing, Ads, Email and Social"}, {"one_liner": "Systeme.io provides a REST Public API (contacts, tags, funnels, newsletters, courses, communities, automations, webhooks) authenticated via a simple X-API-Key generated self-serve in account settings, plus an official beta MCP server.", "auth_method": "API key", "self_serve_status": "self-serve-free", "api_surface": "REST", "api_breadth": "broad", "has_mcp": "yes-official", "buildability": "buildable-now", "main_blocker": "", "evidence_url": "https://developer.systeme.io/reference/api", "confidence": 0.9, "app": "systeme.io", "category": "Marketing, Ads, Email and Social"}, {"one_liner": "Pinterest API v5 offers REST endpoints (Pins, Boards, Ads, Catalogs, Analytics) via OAuth2, but every app must pass Pinterest's manual review (Trial access, then Standard access for production/multi-user use with a video-demo review) before it can serve real users.", "auth_method": "OAuth2", "self_serve_status": "admin-approval", "api_surface": "REST", "api_breadth": "broad", "has_mcp": "yes-community", "buildability": "buildable-with-friction", "main_blocker": "App registration requires human review each business day for Trial access (limited, sandboxed, per-app rate limits), and offering the integration to real end-users requires a further Standard access upgrade that Pinterest reviews manually (including a video demo of the OAuth flow). No formal partner/marketplace program is required, but both tiers involve Pinterest staff approval rather than instant self-serve signup.", "evidence_url": "https://developers.pinterest.com/docs/getting-started/access-tiers/", "confidence": 0.9, "app": "Pinterest", "category": "Marketing, Ads, Email and Social"}, {"one_liner": "Meta's Threads API lets apps publish posts, read replies, and access insights on behalf of Threads users via OAuth2, but any permission beyond your own test users requires Meta's App Review and app publishing (plus Business Verification for Tech Providers serving other clients).", "auth_method": "OAuth2", "self_serve_status": "admin-approval", "api_surface": "REST", "api_breadth": "moderate", "has_mcp": "yes-community", "buildability": "buildable-with-friction", "main_blocker": "To let arbitrary end-users (not just app testers) connect their Threads accounts, the Meta app must go through App Review for each permission scope (threads_basic, threads_content_publish, threads_manage_replies, etc.) and be published; serving multiple external clients as a Tech Provider additionally requires Business Verification. This is a human-reviewed, multi-tenant gating process, not instant self-serve.", "evidence_url": "https://developers.facebook.com/docs/development/create-an-app/threads-use-case/", "confidence": 0.9, "app": "Threads (Meta)", "category": "Marketing, Ads, Email and Social"}, {"one_liner": "SendGrid (Twilio) offers a broad REST v3 API for transactional/marketing email, authenticated via per-account API keys (Bearer token), which any developer can self-generate instantly from the SendGrid dashboard \u2014 well suited for a Composio toolkit.", "auth_method": "API key", "self_serve_status": "self-serve-free", "api_surface": "REST", "api_breadth": "broad", "has_mcp": "yes-community", "buildability": "buildable-now", "main_blocker": "", "evidence_url": "https://docs.sendgrid.com/api-reference/api-keys/create-api-keys", "confidence": 0.9, "app": "SendGrid", "category": "Marketing, Ads, Email and Social"}, {"one_liner": "Shopify offers a well-documented REST/GraphQL Admin API with standard OAuth 2.0 authorization code grant for standalone/public apps, enabling multi-tenant merchant store connections via a free Partner account.", "auth_method": "OAuth2", "self_serve_status": "self-serve-free", "api_surface": "REST", "api_breadth": "broad", "has_mcp": "yes-official", "buildability": "buildable-now", "main_blocker": "", "evidence_url": "https://shopify.dev/docs/apps/build/authentication-authorization", "confidence": 0.9, "app": "Shopify", "category": "Ecommerce"}, {"one_liner": "WooCommerce (self-hosted WordPress ecommerce plugin) exposes a broad REST API (products, orders, customers, coupons, reports, webhooks, etc.) per-store, authenticated via Consumer Key/Secret (HTTP Basic over HTTPS or OAuth1.0a over HTTP), with an optional app-authorization redirect flow for users to grant key access to third-party apps.", "auth_method": "API key", "self_serve_status": "self-serve-free", "api_surface": "REST", "api_breadth": "broad", "has_mcp": "yes-official", "buildability": "buildable-now", "main_blocker": "WooCommerce is self-hosted per-store (not a central SaaS), so there's no single OAuth app registry - each end-user's store generates its own Consumer Key/Secret, either manually in wp-admin or via the /wc-auth/v1/authorize redirect flow that lets an app request key generation from the store owner. This is still fully self-serve and free (no WooCommerce-side approval), but multi-tenant integration requires storing a per-store base URL plus key/secret per connected account rather than a single global OAuth app credential.", "evidence_url": "https://developer.woocommerce.com/docs/apis/rest-api/authentication/", "confidence": 0.9, "app": "WooCommerce", "category": "Ecommerce"}, {"one_liner": "BigCommerce offers REST/GraphQL Admin & Storefront APIs with OAuth2 (code-grant) auth, but generating access tokens on behalf of OTHER merchants requires your app to be approved and listed in the BigCommerce App Marketplace (technical + listing review) \u2014 a single dev's private/draft app can only get tokens for their own store.", "auth_method": "OAuth2", "self_serve_status": "partner-gated", "api_surface": "REST", "api_breadth": "broad", "has_mcp": "yes-official", "buildability": "buildable-with-friction", "main_blocker": "To let other end-users (merchants) connect their own BigCommerce stores via OAuth through a Composio toolkit, the app must go through BigCommerce's App Marketplace approval process (Marketplace team review, UAT, listing requirements, submission/review fee, multi-user enablement, minimal-scope OAuth, HTTPS callbacks, etc.) as documented at docs.bigcommerce.com/developer/docs/integrations/apps/guide/approval-requirements. A private/unlisted draft app can only mint access tokens for the developer's own store, not for arbitrary third-party merchants, per the docs' explicit 'Store owner access_token constraint' note.", "evidence_url": "https://docs.bigcommerce.com/developer/docs/integrations/apps/guide/auth", "confidence": 0.85, "app": "BigCommerce", "category": "Ecommerce"}, {"one_liner": "Enterprise B2C Commerce Cloud REST APIs (SCAPI: Shopper APIs via SLAS, Admin APIs via Salesforce Account Manager) using OAuth2.1/JWT bearer tokens, but the platform itself requires an existing paid commercial contract to obtain any instance/sandbox \u2014 there is no public self-serve developer signup.", "auth_method": "OAuth2", "self_serve_status": "partner-gated", "api_surface": "REST", "api_breadth": "broad", "has_mcp": "yes-official", "buildability": "blocked", "main_blocker": "No public/self-serve way to obtain a B2C Commerce Cloud org, sandbox, or API credentials \u2014 Salesforce docs explicitly state on-demand sandboxes require an existing commercial contract and purchasing sandbox credits via an Account Executive. Multi-tenant use (letting arbitrary end-users connect their own store) requires each merchant to already be a paying Commerce Cloud customer who then provisions their own SLAS client (shopper API) or Account Manager API client (admin API) within their own org; distributing packaged integrations broadly further requires submission/review through the Commerce App Registry (ISV path). No open OAuth app registration exists for building a single multi-tenant connector across arbitrary merchants without going through partner/ISV channels.", "evidence_url": "https://developer.salesforce.com/docs/commerce/commerce-api/guide/b2c-get-started-sandboxes.html", "confidence": 0.8, "app": "Salesforce Commerce Cloud", "category": "Ecommerce"}, {"one_liner": "Adobe Commerce/Magento exposes broad REST (and GraphQL) APIs; merchants self-generate OAuth 1.0a \"Integration\" credentials (PaaS/on-prem) or Adobe IMS OAuth2 client-credentials (Cloud/SaaS) themselves in their own Admin/Developer Console, with no Adobe review needed per tenant.", "auth_method": "OAuth2", "self_serve_status": "self-serve-free", "api_surface": "REST", "api_breadth": "broad", "has_mcp": "yes-community", "buildability": "buildable-now", "main_blocker": "Two divergent auth flows depending on deployment (OAuth 1.0a \"Integration\" self-activation for PaaS/on-prem Magento vs Adobe IMS OAuth2 client-credentials with commerce.accs scope for Adobe Commerce as a Cloud Service) add integration complexity but neither requires Adobe/partner approval \u2014 each merchant instance generates its own credentials.", "evidence_url": "https://developer.adobe.com/commerce/webapi/get-started/authentication/gs-authentication-oauth", "confidence": 0.8, "app": "Magento (Adobe Commerce)", "category": "Ecommerce"}, {"one_liner": "Squarespace Commerce APIs (Orders, Inventory, Products, Contacts, Discounts, Webhooks) accessible via OAuth2 for multi-tenant Extensions or via per-site API keys for single-tenant custom apps on Commerce Advanced plan.", "auth_method": "OAuth2", "self_serve_status": "admin-approval", "api_surface": "REST", "api_breadth": "moderate", "has_mcp": "yes-community", "buildability": "buildable-with-friction", "main_blocker": "For multi-tenant use (other end-users connecting their own Squarespace sites), you must register as an OAuth client/\"Extension\" and Squarespace manually reviews the registration before issuing client_id/client_secret (\"We will review your registration and respond ... as soon as possible\"). The simpler single-tenant path (per-site API key) requires the merchant to be on the Commerce Advanced plan and only grants access to that one site, not suitable for a multi-tenant toolkit. No official MCP server exists; only third-party/community ones (e.g. The1Studio/squarespace-mcp) built on the API key auth model.", "evidence_url": "https://developers.squarespace.com/commerce-apis/oauth", "confidence": 0.85, "app": "Squarespace", "category": "Ecommerce"}, {"one_liner": "Ecwid (by Lightspeed) offers a REST API with OAuth2 for ecommerce store management (products, orders, customers, discounts), but multi-tenant access requires publishing a \"public app\" through the App Market, which involves a technical validation review and signing a partner/revenue-share agreement.", "auth_method": "OAuth2", "self_serve_status": "partner-gated", "api_surface": "REST", "api_breadth": "broad", "has_mcp": "yes-community", "buildability": "buildable-with-friction", "main_blocker": "A \"custom app\" (private, single-store) can get an access token instantly without OAuth review, but that only works for one store owned by the developer. To let OTHER end-users connect their own Ecwid stores (multi-tenant OAuth \"public app\"), Ecwid requires submitting the app to their App Market for a 1-3 day technical validation review, a demo video, and signing a partner contract with revenue-sharing terms \u2014 i.e. partner-gated, not self-serve.", "evidence_url": "https://docs.ecwid.com/launch-apps/faq-about-public-applications", "confidence": 0.85, "app": "Ecwid", "category": "Ecommerce"}, {"one_liner": "Gumroad offers a public REST/JSON API with OAuth 2.0 for third-party apps, covering products, sales, subscriptions, payouts, and profile data.", "auth_method": "OAuth2", "self_serve_status": "self-serve-free", "api_surface": "REST", "api_breadth": "broad", "has_mcp": "yes-community", "buildability": "buildable-now", "main_blocker": "", "evidence_url": "https://gumroad.com/api", "confidence": 0.9, "app": "Gumroad", "category": "Ecommerce"}, {"one_liner": "Amazon Selling Partner API (SP-API) lets apps manage orders, inventory, listings, reports etc. for Amazon sellers/vendors, but multi-tenant (public) apps require Amazon developer profile review, a Solution Provider Agreement, and mandatory listing in the Selling Partner Appstore before other sellers can authorize your app via OAuth.", "auth_method": "OAuth2", "self_serve_status": "partner-gated", "api_surface": "REST", "api_breadth": "broad", "has_mcp": "yes-community", "buildability": "buildable-with-friction", "main_blocker": "To let other sellers/vendors (multi-tenant) connect their own accounts, the integration must be registered as a \"public application,\" which requires Amazon to review and approve a developer profile (security questionnaire, Acceptable Use Policy, Data Protection Policy, Solution Provider Agreement) and mandates listing the app in the Selling Partner Appstore. This is a partner/ISV-gated approval process, not instant self-serve OAuth registration. (A private/self-authorized app for a single seller's own account is easy and instant, but that's single-tenant only.)", "evidence_url": "https://developer-docs.amazon.com/sp-api/docs/registering-as-a-developer", "confidence": 0.85, "app": "Amazon Selling Partner", "category": "Ecommerce"}, {"one_liner": "Fanbasis (rebranded as Commas) offers a REST API for checkout/payments/subscriptions/customers/webhooks, authenticated via a per-account x-api-key obtained free from the creator dashboard \u2014 a single-tenant API-key model rather than a multi-tenant OAuth flow.", "auth_method": "API key", "self_serve_status": "self-serve-free", "api_surface": "REST", "api_breadth": "moderate", "has_mcp": "yes-community", "buildability": "buildable-now", "main_blocker": "Auth is a static per-creator API key generated from each user's own dashboard (no OAuth2/public-app flow), so a Composio toolkit would need each connected end-user to manually paste in their own x-api-key rather than going through an authorization redirect. Also note the product recently rebranded to \"Commas\" (docs at commasdocs.com) which may cause naming/discovery friction.", "evidence_url": "https://commasdocs.com/", "confidence": 0.75, "app": "fanbasis", "category": "Ecommerce"}, {"one_liner": "DataForSEO offers a broad suite of REST APIs (SERP, Keywords, Backlinks, OnPage, Business Data, etc.) authenticated via HTTP Basic Auth using a login/password pair generated per free account.", "auth_method": "Basic", "self_serve_status": "self-serve-free", "api_surface": "REST", "api_breadth": "broad", "has_mcp": "yes-official", "buildability": "buildable-now", "main_blocker": "", "evidence_url": "https://docs.dataforseo.com/v3/auth/", "confidence": 0.9, "app": "DataForSEO", "category": "Data, SEO and Scraping"}, {"one_liner": "SE Ranking offers a REST Data/Project API (backlinks, domain, keywords, AI search, site audit) authenticated via a simple per-account API key (Token header or query param), plus an official MCP server exposing this data to AI assistants.", "auth_method": "API key", "self_serve_status": "paid-plan", "api_surface": "REST", "api_breadth": "broad", "has_mcp": "yes-official", "buildability": "buildable-with-friction", "main_blocker": "API key generation itself is instant/self-serve from the account dashboard, but the underlying Data API credits require a paid subscription tier or balance top-up (annual credit packages starting ~$2,148/yr, or upgrading an existing SE Ranking plan) \u2014 accounts without API credits get a 402/plan-upgrade error, so each end-user connecting via Composio would need their own paid SE Ranking plan with API credits.", "evidence_url": "https://seranking.com/api/data/getting-started/", "confidence": 0.85, "app": "SE Ranking", "category": "Data, SEO and Scraping"}, {"one_liner": "Ahrefs offers a REST API v3 (API-key auth, single account) and Ahrefs Connect (OAuth2) for third-party multi-tenant apps, but Connect requires an approved partner application plus an Ahrefs Enterprise plan before production activation.", "auth_method": "OAuth2", "self_serve_status": "partner-gated", "api_surface": "REST", "api_breadth": "broad", "has_mcp": "yes-official", "buildability": "blocked", "main_blocker": "To let OTHER users connect their own Ahrefs accounts through an integration (multi-tenant), you must join \"Ahrefs Connect\": submit an application, get approved by Ahrefs' Enterprise/sales team, implement OAuth2 in a staging/Inactive state, then undergo a review before activation \u2014 and you need an Ahrefs Enterprise subscription to go live in production (legacy partners are exempt from the Enterprise requirement but still go through the same review/activation steps). Direct API-key access (Lite+ plan) is single-account only and not suitable for a multi-tenant toolkit. The official MCP server (api.ahrefs.com/mcp/mcp) also requires a paid Lite+ plan and generates data for one account's key, not per-end-user OAuth.", "evidence_url": "https://docs.ahrefs.com/ahrefs-connect/docs/how-it-works", "confidence": 0.9, "app": "Ahrefs", "category": "Data, SEO and Scraping"}, {"one_liner": "MrScraper is an AI-powered web scraping platform with a REST API (scrapers, results, analytics) authenticated via a per-account API token, plus SDKs and an official MCP server.", "auth_method": "API key", "self_serve_status": "self-serve-free", "api_surface": "REST", "api_breadth": "moderate", "has_mcp": "yes-official", "buildability": "buildable-now", "main_blocker": "", "evidence_url": "https://docs.mrscraper.com/docs/api/authentication", "confidence": 0.9, "app": "MrScraper", "category": "Data, SEO and Scraping"}, {"one_liner": "Apify is a web scraping/automation platform (Actors) with a REST API authenticated via per-account API tokens, plus an official hosted MCP server exposing Actors to AI clients.", "auth_method": "API key", "self_serve_status": "self-serve-free", "api_surface": "REST", "api_breadth": "broad", "has_mcp": "yes-official", "buildability": "buildable-now", "main_blocker": "", "evidence_url": "https://docs.apify.com/api/v2/getting-started.md", "confidence": 0.92, "app": "Apify", "category": "Data, SEO and Scraping"}, {"one_liner": "Firecrawl provides a REST API (scrape, crawl, search, map, extract, interact) that turns web pages into LLM-ready markdown/JSON, authenticated via a simple Bearer API key from the developer dashboard.", "auth_method": "API key", "self_serve_status": "self-serve-free", "api_surface": "REST", "api_breadth": "broad", "has_mcp": "yes-official", "buildability": "buildable-now", "main_blocker": "", "evidence_url": "https://docs.firecrawl.dev/introduction", "confidence": 0.95, "app": "Firecrawl", "category": "Data, SEO and Scraping"}, {"one_liner": "Bright Data provides a REST API (plus proxy-based Native Access) for web scraping, SERP, unlocker, and browser automation products, authenticated via a self-generated Bearer API key from the account dashboard.", "auth_method": "API key", "self_serve_status": "self-serve-free", "api_surface": "REST", "api_breadth": "broad", "has_mcp": "yes-official", "buildability": "buildable-now", "main_blocker": "", "evidence_url": "https://docs.brightdata.com/api-reference/authentication", "confidence": 0.9, "app": "Bright Data", "category": "Data, SEO and Scraping"}, {"one_liner": "Sherlock is an open-source Python CLI tool (not a hosted service) that hunts for social-media accounts by username across 400+ sites; it has no official hosted API, no authentication system, and no multi-tenant developer platform.", "auth_method": "other", "self_serve_status": "admin-approval", "api_surface": "none-public", "api_breadth": "narrow", "has_mcp": "yes-community", "buildability": "blocked", "main_blocker": "Sherlock is distributed only as a local CLI tool/pip package (sherlock-project) with no official hosted API, no auth mechanism, and no multi-tenant credentials. There is a separate unofficial \"sherlock-project/api\" repo, but it's an unmaintained Django REST Framework scaffold users must self-host, not a public service \u2014 so there's nothing for end-users to \"connect their own account\" to. Several third-party community MCP wrappers exist (e.g., Burnsedia/sherlock-mcp), but no official MCP server or API from the project itself.", "evidence_url": "https://github.com/sherlock-project/sherlock", "confidence": 0.9, "app": "Sherlock", "category": "Data, SEO and Scraping"}, {"one_liner": "Waterfall.io is a B2B contact/company data enrichment API (aggregating 30+ data vendors) with async job-based endpoints for prospecting, contact finding, and enrichment.", "auth_method": "API key", "self_serve_status": "admin-approval", "api_surface": "REST", "api_breadth": "moderate", "has_mcp": "no", "buildability": "buildable-with-friction", "main_blocker": "Access is not self-serve: there's no public free signup or free plan \u2014 the docs/site direct new users to \"book a demo\" with the sales team to obtain an API key, and pricing is usage-based/negotiated. Additionally, programmatic API-key management (creating sub-keys for multiple end-users, which a multi-tenant Composio toolkit would need) is explicitly gated as an \"enterprise feature\" requiring a master key issued only after contacting an account manager. Auth itself is a simple static API key (not OAuth), so per-end-user connection in a multi-tenant setup would rely on each customer independently obtaining their own key from Waterfall's sales-gated process.", "evidence_url": "https://docs.waterfall.io/v1/api-keys-overview", "confidence": 0.75, "app": "Waterfall.io", "category": "Data, SEO and Scraping"}, {"one_liner": "Clay's Public API lets any user generate a personal API key (per-workspace) for programmatic data enrichment/prospecting access; Clay also ships an official MCP server for coding-agent/chat integrations.", "auth_method": "API key", "self_serve_status": "self-serve-free", "api_surface": "REST", "api_breadth": "moderate", "has_mcp": "yes-official", "buildability": "buildable-now", "main_blocker": "", "evidence_url": "https://developers.clay.com/public-api/authentication", "confidence": 0.85, "app": "Clay", "category": "Data, SEO and Scraping"}, {"one_liner": "GitHub's REST/GraphQL APIs support OAuth2 (OAuth Apps or GitHub Apps) for multi-tenant, third-party integrations, with instant self-serve app registration and no review required to get client_id/secret.", "auth_method": "OAuth2", "self_serve_status": "self-serve-free", "api_surface": "REST", "api_breadth": "broad", "has_mcp": "yes-official", "buildability": "buildable-now", "main_blocker": "", "evidence_url": "https://docs.github.com/en/rest/authentication/authenticating-to-the-rest-api", "confidence": 0.97, "app": "GitHub", "category": "Developer, Infra and Data platforms"}, {"one_liner": "Vercel exposes a broad REST API (deployments, projects, domains, env vars, teams, webhooks, etc.) authenticated via Bearer tokens; multi-tenant access for a third-party integration requires building a Vercel \"Integration\" (OAuth2 code-exchange flow) which must be submitted to and approved by Vercel before external users can connect their own accounts, and public marketplace listing needs 500+ installs plus manual review.", "auth_method": "OAuth2", "self_serve_status": "admin-approval", "api_surface": "REST", "api_breadth": "broad", "has_mcp": "yes-official", "buildability": "buildable-with-friction", "main_blocker": "Personal access tokens work instantly for single-account use, but a true multi-tenant Composio-style toolkit needs an OAuth \"connectable account\" Integration created in the Vercel Integrations Console. Per Vercel's own docs, integrations must be \"submitted\" and \"approved\" by Vercel before external users can install/connect their own accounts (step 3 of the Create Integration flow), and getting listed on the public marketplace additionally requires 500+ active installs plus a manual review against Vercel's approval checklist.", "evidence_url": "https://vercel.com/docs/integrations/create-integration", "confidence": 0.85, "app": "Vercel", "category": "Developer, Infra and Data platforms"}, {"one_liner": "Netlify offers a broad REST API (sites, deploys, env vars, forms, DNS, hooks, etc.) with self-serve OAuth2 app registration for multi-tenant integrations, plus PAT support for personal use.", "auth_method": "OAuth2", "self_serve_status": "self-serve-free", "api_surface": "REST", "api_breadth": "broad", "has_mcp": "yes-official", "buildability": "buildable-now", "main_blocker": "", "evidence_url": "https://docs.netlify.com/api-and-cli-guides/api-guides/get-started-with-api/", "confidence": 0.92, "app": "Netlify", "category": "Developer, Infra and Data platforms"}, {"one_liner": "Cloudflare offers a broad REST API (2500+ endpoints) with a standard OAuth2 authorization-code flow for third-party/public multi-tenant apps (self-serve creation of OAuth clients via dashboard or API, free on all plans, with automated DNS domain-verification to go public rather than human review), plus official remote MCP servers.", "auth_method": "OAuth2", "self_serve_status": "self-serve-free", "api_surface": "REST", "api_breadth": "broad", "has_mcp": "yes-official", "buildability": "buildable-now", "main_blocker": "To make an OAuth client \"public\" (so any external Cloudflare user can authorize it, needed for a multi-tenant toolkit) you must complete automated DNS TXT-record domain verification for the client URL, which can take up to 2 days to poll; this is automated, not a human review/partnership gate, so it stays self-serve-free but adds setup friction.", "evidence_url": "https://developers.cloudflare.com/fundamentals/oauth/create-an-oauth-client/", "confidence": 0.9, "app": "Cloudflare", "category": "Developer, Infra and Data platforms"}, {"one_liner": "Supabase offers a Management API secured via OAuth2 (self-serve OAuth app creation in org settings, no approval needed) for multi-tenant project/org management, plus per-project REST/client APIs using API keys; docs are official and thorough, and Supabase also publishes its own official MCP server.", "auth_method": "OAuth2", "self_serve_status": "self-serve-free", "api_surface": "REST", "api_breadth": "broad", "has_mcp": "yes-official", "buildability": "buildable-now", "main_blocker": "", "evidence_url": "https://supabase.com/docs/guides/integrations/build-a-supabase-oauth-integration", "confidence": 0.93, "app": "Supabase", "category": "Developer, Infra and Data platforms"}, {"one_liner": "Neo4j exposes a REST-based Query API (successor to the HTTP API) for executing Cypher against a graph database instance, authenticated via Basic (username/password) or Bearer (SSO token) headers per-instance; there is also an official Neo4j MCP server.", "auth_method": "Basic", "self_serve_status": "self-serve-free", "api_surface": "REST", "api_breadth": "broad", "has_mcp": "yes-official", "buildability": "buildable-now", "main_blocker": "", "evidence_url": "https://neo4j.com/docs/query-api/current/authentication-authorization/", "confidence": 0.85, "app": "Neo4j", "category": "Developer, Infra and Data platforms"}, {"one_liner": "Snowflake offers a broad REST/SQL API and native OAuth2 (plus key-pair JWT, PATs, and workload identity) for programmatic access, and now ships an official first-party MCP server (CREATE MCP SERVER) for AI agent integration.", "auth_method": "OAuth2", "self_serve_status": "self-serve-free", "api_surface": "REST", "api_breadth": "broad", "has_mcp": "yes-official", "buildability": "buildable-now", "main_blocker": "Snowflake OAuth is per-account, not a single centralized multi-tenant app registration: each end customer's own Snowflake account admin (ACCOUNTADMIN role) must create a Security Integration (CREATE SECURITY INTEGRATION type=oauth) in their own account before OAuth tokens can be issued for that tenant. This setup is self-service (SQL command, no Snowflake human review/approval needed) but does add integration friction since every connecting tenant must configure it themselves rather than a toolkit developer registering one global OAuth app for all users. Alternative auth like key-pair JWT or Programmatic Access Tokens (PATs) is also self-serve per-account and may be simpler for a Composio toolkit.", "evidence_url": "https://docs.snowflake.com/en/developer-guide/snowflake-rest-api/authentication", "confidence": 0.85, "app": "Snowflake", "category": "Developer, Infra and Data platforms"}, {"one_liner": "MongoDB Atlas Administration API (REST) lets you manage orgs, projects, clusters, users, backups etc.; auth is via self-generated API keys (HTTP Digest) or OAuth2 client-credentials service accounts, both created independently per org/project by any Org/Project Owner with no MongoDB approval needed.", "auth_method": "API key", "self_serve_status": "self-serve-free", "api_surface": "REST", "api_breadth": "broad", "has_mcp": "yes-official", "buildability": "buildable-now", "main_blocker": "", "evidence_url": "https://www.mongodb.com/docs/atlas/configure-api-access", "confidence": 0.92, "app": "MongoDB Atlas", "category": "Developer, Infra and Data platforms"}, {"one_liner": "Datadog exposes a broad REST API (metrics, logs, traces, monitors, dashboards, incidents, etc.) authenticated with a free, self-issued API key + Application key pair, and Datadog also publishes its own official remote MCP server.", "auth_method": "API key", "self_serve_status": "self-serve-free", "api_surface": "REST", "api_breadth": "broad", "has_mcp": "yes-official", "buildability": "buildable-now", "main_blocker": "", "evidence_url": "https://docs.datadoghq.com/api/latest/authentication/", "confidence": 0.9, "app": "Datadog", "category": "Developer, Infra and Data platforms"}, {"one_liner": "Sentry's REST API supports token and OAuth2 auth, but building a multi-tenant integration that lets other users connect their own Sentry orgs requires either publishing a Sentry Integration Platform app (review/approval via email to integrations-platform@sentry.io) or, for the dedicated partner OAuth flow, explicit registration by Sentry's partnership team (partnership-platform@sentry.io) before any redirect_uri/client works for outside customers.", "auth_method": "OAuth2", "self_serve_status": "partner-gated", "api_surface": "REST", "api_breadth": "broad", "has_mcp": "yes-official", "buildability": "buildable-with-friction", "main_blocker": "Sentry's REST API itself is broad and well documented (auth tokens, OAuth2 with PKCE, device flow). However, for a Composio-style multi-tenant toolkit where many end-users connect their own Sentry orgs, Sentry requires either (a) building on the \"Integration Platform\" as a public Sentry App, which stays restricted to your own org until you submit it for manual publication review by Sentry staff, or (b) using the dedicated \"Partnership Platform\" OAuth flow, which explicitly states 'Before implementing OAuth, Sentry must register your application' via contacting their partnership team with company/product details \u2014 a partner-gated process, not instant self-serve. A single-user internal integration/personal auth token is self-serve, but that's not the multi-tenant path.", "evidence_url": "https://docs.sentry.io/product/partnership-platform/oauth-integration/", "confidence": 0.85, "app": "Sentry", "category": "Developer, Infra and Data platforms"}, {"one_liner": "Notion provides a full REST API with OAuth2 \"public connections\" for multi-tenant apps (any developer can self-register and get a working client ID/secret with no review required), plus an official hosted MCP server.", "auth_method": "OAuth2", "self_serve_status": "self-serve-free", "api_surface": "REST", "api_breadth": "broad", "has_mcp": "yes-official", "buildability": "buildable-now", "main_blocker": "", "evidence_url": "https://developers.notion.com/guides/get-started/public-connections", "confidence": 0.95, "app": "Notion", "category": "Productivity and Project Management"}, {"one_liner": "Airtable provides a REST API with token-based auth (OAuth2 for multi-tenant third-party integrations, personal access tokens for single-user use) plus an official hosted MCP server.", "auth_method": "OAuth2", "self_serve_status": "self-serve-free", "api_surface": "REST", "api_breadth": "broad", "has_mcp": "yes-official", "buildability": "buildable-now", "main_blocker": "", "evidence_url": "https://airtable.com/developers/web/guides/oauth-integrations", "confidence": 0.95, "app": "Airtable", "category": "Productivity and Project Management"}, {"one_liner": "Linear offers a full GraphQL API with self-serve OAuth2 (multi-tenant) app creation, personal API keys, and an official hosted MCP server.", "auth_method": "OAuth2", "self_serve_status": "self-serve-free", "api_surface": "GraphQL", "api_breadth": "broad", "has_mcp": "yes-official", "buildability": "buildable-now", "main_blocker": "", "evidence_url": "https://linear.app/developers/oauth-2-0-authentication", "confidence": 0.95, "app": "Linear", "category": "Productivity and Project Management"}, {"one_liner": "Jira Cloud REST API supports standard OAuth 2.0 (3LO) apps registered instantly in the Atlassian developer console, enabling multi-tenant end-user authorization without any approval gate to start (though Marketplace listing/review is optional for full trust badge).", "auth_method": "OAuth2", "self_serve_status": "self-serve-free", "api_surface": "REST", "api_breadth": "broad", "has_mcp": "yes-official", "buildability": "buildable-now", "main_blocker": "", "evidence_url": "https://developer.atlassian.com/cloud/jira/platform/oauth-2-3lo-apps/", "confidence": 0.93, "app": "Jira", "category": "Productivity and Project Management"}, {"one_liner": "Asana offers a full REST API with standard OAuth2 (authorization code + PKCE) multi-tenant app registration via a free public developer console, plus an official MCP server.", "auth_method": "OAuth2", "self_serve_status": "self-serve-free", "api_surface": "REST", "api_breadth": "broad", "has_mcp": "yes-official", "buildability": "buildable-now", "main_blocker": "", "evidence_url": "https://developers.asana.com/docs/oauth", "confidence": 0.95, "app": "Asana", "category": "Productivity and Project Management"}, {"one_liner": "Monday.com offers a GraphQL API with a self-serve public OAuth2 app flow (create app in Developer Center, get client_id/secret, users authorize via auth.monday.com) enabling true multi-tenant integrations, plus an official hosted MCP server.", "auth_method": "OAuth2", "self_serve_status": "self-serve-free", "api_surface": "GraphQL", "api_breadth": "broad", "has_mcp": "yes-official", "buildability": "buildable-now", "main_blocker": "", "evidence_url": "https://developer.monday.com/apps/docs/oauth", "confidence": 0.93, "app": "Monday.com", "category": "Productivity and Project Management"}, {"one_liner": "ClickUp offers a full REST API with self-serve OAuth2 app creation (any Workspace owner/admin can instantly create an OAuth app with client_id/secret, no review process) enabling multi-tenant integrations across tasks, docs, chat, time tracking, etc.", "auth_method": "OAuth2", "self_serve_status": "self-serve-free", "api_surface": "REST", "api_breadth": "broad", "has_mcp": "yes-official", "buildability": "buildable-now", "main_blocker": "", "evidence_url": "https://developer.clickup.com/docs/authentication", "confidence": 0.95, "app": "ClickUp", "category": "Productivity and Project Management"}, {"one_liner": "Coda (rebranding to \"Superhuman Docs\") offers a broad REST API for docs, tables, rows, and automations, authenticated via user-generated Bearer API tokens \u2014 no OAuth app registration needed for third-party/multi-tenant integrations, and Coda also publishes an official hosted MCP server.", "auth_method": "API key", "self_serve_status": "self-serve-free", "api_surface": "REST", "api_breadth": "broad", "has_mcp": "yes-official", "buildability": "buildable-now", "main_blocker": "", "evidence_url": "https://coda.io/developers/apis/v1", "confidence": 0.85, "app": "Coda", "category": "Productivity and Project Management"}, {"one_liner": "Smartsheet provides a broad REST API and an official hosted MCP server (mcp.smartsheet.com), with OAuth2 multi-tenant developer app registration via Developer Tools for licensed accounts.", "auth_method": "OAuth2", "self_serve_status": "paid-plan", "api_surface": "REST", "api_breadth": "broad", "has_mcp": "yes-official", "buildability": "buildable-with-friction", "main_blocker": "Registering a multi-tenant OAuth app requires a licensed Smartsheet user account (Business plan or higher); personal API tokens work for single accounts but not multi-tenant.", "evidence_url": "https://developers.smartsheet.com/api", "confidence": 0.9, "app": "Smartsheet", "category": "Productivity and Project Management"}, {"one_liner": "Harvest offers a comprehensive REST API (v2) for time tracking and invoicing with self-serve OAuth2 app registration via the Harvest ID Developers portal, plus active community MCP servers.", "auth_method": "OAuth2", "self_serve_status": "self-serve-free", "api_surface": "REST", "api_breadth": "broad", "has_mcp": "yes-community", "buildability": "buildable-now", "main_blocker": "", "evidence_url": "https://help.getharvest.com/api-v2", "confidence": 0.95, "app": "Harvest", "category": "Productivity and Project Management"}, {"one_liner": "Stripe provides an industry-standard REST API, self-serve Stripe Connect OAuth2 for multi-tenant integrations, and an official hosted MCP server (mcp.stripe.com).", "auth_method": "OAuth2", "self_serve_status": "self-serve-free", "api_surface": "REST", "api_breadth": "broad", "has_mcp": "yes-official", "buildability": "buildable-now", "main_blocker": "", "evidence_url": "https://stripe.com/docs/api", "confidence": 0.95, "app": "Stripe", "category": "Finance and Fintech"}, {"one_liner": "Plaid provides a broad financial data REST API, instant self-serve developer sandbox credentials, and an official Dashboard MCP server for integration monitoring.", "auth_method": "API key", "self_serve_status": "self-serve-free", "api_surface": "REST", "api_breadth": "broad", "has_mcp": "yes-official", "buildability": "buildable-now", "main_blocker": "", "evidence_url": "https://plaid.com/docs", "confidence": 0.95, "app": "Plaid", "category": "Finance and Fintech"}, {"one_liner": "Binance offers extensive REST and WebSocket trading/market data APIs authenticated via HMAC/RSA API keys, self-serve testnet and account key generation, and community MCP servers.", "auth_method": "API key", "self_serve_status": "self-serve-free", "api_surface": "REST", "api_breadth": "broad", "has_mcp": "yes-community", "buildability": "buildable-now", "main_blocker": "", "evidence_url": "https://binance-docs.github.io/apidocs/spot/en", "confidence": 0.95, "app": "Binance", "category": "Finance and Fintech"}, {"one_liner": "Paygent Connect is an NMI-powered payment gateway wrapper providing RESTful payment processing that requires merchant underwriting and reseller approval rather than public self-serve registration.", "auth_method": "API key", "self_serve_status": "partner-gated", "api_surface": "REST", "api_breadth": "moderate", "has_mcp": "no", "buildability": "buildable-with-friction", "main_blocker": "Gateway access is powered by NMI and requires merchant underwriting, ISO reseller onboarding, or merchant account approval; there is no instant public self-serve developer signup.", "evidence_url": "https://docs.nmi.com/", "confidence": 0.85, "app": "Paygent Connect", "category": "Finance and Fintech"}, {"one_liner": "iPayX Protocol is an AI-native FX audit engine offering a dedicated REST API and an official native Model Context Protocol (MCP) server for automated currency transaction auditing.", "auth_method": "API key", "self_serve_status": "self-serve-free", "api_surface": "REST", "api_breadth": "narrow", "has_mcp": "yes-official", "buildability": "buildable-now", "main_blocker": "", "evidence_url": "https://ipayx.ai/docs", "confidence": 0.9, "app": "iPayX", "category": "Finance and Fintech"}, {"one_liner": "Intuit QuickBooks Online provides a broad accounting REST API with OAuth 2.0 multi-tenant authentication, instant developer sandbox access, and an official open-source MCP server.", "auth_method": "OAuth2", "self_serve_status": "self-serve-free", "api_surface": "REST", "api_breadth": "broad", "has_mcp": "yes-official", "buildability": "buildable-now", "main_blocker": "", "evidence_url": "https://developer.intuit.com/", "confidence": 0.95, "app": "QuickBooks", "category": "Finance and Fintech"}, {"one_liner": "Xero provides a broad accounting REST API with standard OAuth 2.0 multi-tenant app registration (self-serve up to 25 orgs) and an official open-source MCP server (XeroAPI/xero-mcp-server).", "auth_method": "OAuth2", "self_serve_status": "self-serve-free", "api_surface": "REST", "api_breadth": "broad", "has_mcp": "yes-official", "buildability": "buildable-now", "main_blocker": "", "evidence_url": "https://developer.xero.com/", "confidence": 0.95, "app": "Xero", "category": "Finance and Fintech"}, {"one_liner": "Brex offers a broad financial management REST API and an official hosted MCP server (api.brex.com/mcp) supporting OAuth 2.0 with dynamic client registration.", "auth_method": "OAuth2", "self_serve_status": "self-serve-free", "api_surface": "REST", "api_breadth": "broad", "has_mcp": "yes-official", "buildability": "buildable-now", "main_blocker": "", "evidence_url": "https://developer.brex.com/", "confidence": 0.95, "app": "Brex", "category": "Finance and Fintech"}, {"one_liner": "Ramp provides a comprehensive corporate card and spend management REST API with OAuth 2.0 developer app registration and official open-source MCP servers (ramp-public/ramp_mcp).", "auth_method": "OAuth2", "self_serve_status": "self-serve-free", "api_surface": "REST", "api_breadth": "broad", "has_mcp": "yes-official", "buildability": "buildable-now", "main_blocker": "", "evidence_url": "https://docs.ramp.com/", "confidence": 0.95, "app": "Ramp", "category": "Finance and Fintech"}, {"one_liner": "PitchBook offers private market research data through an enterprise REST API (PB-Token) and an official Premium MCP connector with SSO, strictly gated behind sales contracts.", "auth_method": "API key", "self_serve_status": "partner-gated", "api_surface": "REST", "api_breadth": "broad", "has_mcp": "yes-official", "buildability": "buildable-with-friction", "main_blocker": "Access requires contact-sales enterprise contracts, substantial annual spend, and purchased API credits from a sales representative; no public self-serve developer tier.", "evidence_url": "https://pitchbook.com/", "confidence": 0.9, "app": "PitchBook", "category": "Finance and Fintech"}, {"one_liner": "Google NotebookLM offers programmatic access via the Gemini Notebook Enterprise REST API for Google Cloud enterprise customers, alongside community MCP wrappers.", "auth_method": "OAuth2", "self_serve_status": "paid-plan", "api_surface": "REST", "api_breadth": "narrow", "has_mcp": "yes-community", "buildability": "buildable-with-friction", "main_blocker": "Consumer NotebookLM lacks a public standalone API; official programmatic access is gated through Google Cloud Gemini Enterprise licensing, while community MCP tools rely on unofficial browser session tokens.", "evidence_url": "https://cloud.google.com/gemini", "confidence": 0.85, "app": "NotebookLM", "category": "AI, Research and Media-native"}, {"one_liner": "Otter.ai provides a meeting transcription and notes REST API and an official MCP server, strictly restricted to Enterprise workspaces via account manager approval.", "auth_method": "OAuth2", "self_serve_status": "partner-gated", "api_surface": "REST", "api_breadth": "moderate", "has_mcp": "yes-official", "buildability": "buildable-with-friction", "main_blocker": "The public API and official MCP server are restricted to Enterprise workspace plans and require manual enablement by an Otter account representative; no self-serve developer path exists.", "evidence_url": "https://help.otter.ai/", "confidence": 0.9, "app": "Otter AI", "category": "AI, Research and Media-native"}, {"one_liner": "Fathom provides an AI meeting recorder REST API with self-serve API keys and OAuth 2.0 support for multi-tenant integrations, supported by community MCP servers.", "auth_method": "OAuth2", "self_serve_status": "self-serve-free", "api_surface": "REST", "api_breadth": "moderate", "has_mcp": "yes-community", "buildability": "buildable-now", "main_blocker": "", "evidence_url": "https://fathom.video/", "confidence": 0.9, "app": "Fathom", "category": "AI, Research and Media-native"}, {"one_liner": "Consensus is an AI academic research engine offering an official hosted MCP server (mcp.consensus.app/mcp) authenticated via OAuth 2.0 PKCE, plus an enterprise REST API.", "auth_method": "OAuth2", "self_serve_status": "self-serve-free", "api_surface": "REST", "api_breadth": "moderate", "has_mcp": "yes-official", "buildability": "buildable-now", "main_blocker": "", "evidence_url": "https://docs.consensus.app/docs/mcp", "confidence": 0.9, "app": "Consensus", "category": "AI, Research and Media-native"}, {"one_liner": "Reducto is an agentic document parsing platform with a full REST API, free self-serve developer signup, and an official MCP server (mcp-server-reducto).", "auth_method": "API key", "self_serve_status": "self-serve-free", "api_surface": "REST", "api_breadth": "moderate", "has_mcp": "yes-official", "buildability": "buildable-now", "main_blocker": "", "evidence_url": "https://reducto.ai/", "confidence": 0.95, "app": "Reducto", "category": "AI, Research and Media-native"}, {"one_liner": "Cognition Devin provides a developer REST API and an official MCP server for autonomous software engineering tasks, accessible with an active Devin subscription API key.", "auth_method": "API key", "self_serve_status": "paid-plan", "api_surface": "REST", "api_breadth": "moderate", "has_mcp": "yes-official", "buildability": "buildable-with-friction", "main_blocker": "Access requires an active paid Devin subscription to generate API keys for REST and MCP integration; no free standalone developer tier.", "evidence_url": "https://docs.devin.ai/", "confidence": 0.9, "app": "Devin", "category": "AI, Research and Media-native"}, {"one_liner": "Higgsfield provides a generative media suite with a REST API, CLI, and an official hosted MCP server (mcp.higgsfield.ai/mcp) supporting OAuth account login and API keys.", "auth_method": "OAuth2", "self_serve_status": "self-serve-trial", "api_surface": "REST", "api_breadth": "moderate", "has_mcp": "yes-official", "buildability": "buildable-now", "main_blocker": "", "evidence_url": "https://higgsfield.ai/", "confidence": 0.9, "app": "higgsfield", "category": "AI, Research and Media-native"}, {"one_liner": "Mermaid CLI is an open-source command-line tool for rendering diagrams from text, requiring no auth and widely wrapped by community MCP servers.", "auth_method": "other", "self_serve_status": "self-serve-free", "api_surface": "SDK-only", "api_breadth": "narrow", "has_mcp": "yes-community", "buildability": "buildable-now", "main_blocker": "", "evidence_url": "https://github.com/mermaid-js/mermaid-cli", "confidence": 0.95, "app": "Mermaid CLI", "category": "AI, Research and Media-native"}, {"one_liner": "YouTube Transcript API (TranscriptAPI) provides a REST API and official/community MCP servers for fetching video transcripts, captions, and metadata with instant self-serve API keys.", "auth_method": "API key", "self_serve_status": "self-serve-free", "api_surface": "REST", "api_breadth": "narrow", "has_mcp": "yes-official", "buildability": "buildable-now", "main_blocker": "", "evidence_url": "https://transcriptapi.com/", "confidence": 0.95, "app": "YouTube Transcript", "category": "AI, Research and Media-native"}, {"one_liner": "Grain provides a meeting notes and recording intelligence REST API and an official MCP server (api.grain.com/_/mcp), with developer token access requiring a paid Business plan.", "auth_method": "OAuth2", "self_serve_status": "paid-plan", "api_surface": "REST", "api_breadth": "moderate", "has_mcp": "yes-official", "buildability": "buildable-with-friction", "main_blocker": "API token generation and official MCP integration access require a paid Business plan subscription; free accounts cannot generate workspace access tokens.", "evidence_url": "https://grain.com/", "confidence": 0.9, "app": "Grain", "category": "AI, Research and Media-native"}];
+    let currentSort = { field: 'app', asc: true };
+    let filteredData = [...appsData];
+
+    function renderTable() {
+      const tbody = document.getElementById('matrixTableBody');
+      tbody.innerHTML = '';
+
+      filteredData.forEach((row, index) => {
+        const tr = document.createElement('tr');
+
+        // Build badges
+        let buildBadge = '';
+        if (row.buildability === 'buildable-now') {
+          buildBadge = '<span class="badge badge-buildable-now">Buildable Now</span>';
+        } else if (row.buildability === 'buildable-with-friction') {
+          buildBadge = '<span class="badge badge-friction">With Friction</span>';
+        } else {
+          buildBadge = '<span class="badge badge-blocked">Blocked</span>';
+        }
+
+        let authBadge = '';
+        if (row.auth_method === 'OAuth2') {
+          authBadge = '<span class="badge badge-oauth">OAuth2</span>';
+        } else if (row.auth_method === 'API key') {
+          authBadge = '<span class="badge badge-apikey">API Key</span>';
+        } else {
+          authBadge = `<span class="badge badge-mcp-community">${row.auth_method}</span>`;
+        }
+
+        let mcpBadge = '';
+        if (row.has_mcp === 'yes-official') {
+          mcpBadge = '<span class="badge badge-mcp-official">Official MCP</span>';
+        } else if (row.has_mcp === 'yes-community') {
+          mcpBadge = '<span class="badge badge-mcp-community">Community</span>';
+        } else {
+          mcpBadge = '<span class="badge badge-mcp-no">No MCP</span>';
+        }
+
+        const confPct = Math.round(row.confidence * 100);
+
+        tr.innerHTML = `
+          <td>
+            <div class="app-name-cell">
+              <span>${row.app}</span>
+            </div>
+            <span class="app-category-badge">${row.category}</span>
+          </td>
+          <td>${row.category}</td>
+          <td>${authBadge}</td>
+          <td><span style="font-size: 12px; color: var(--text-secondary);">${row.self_serve_status}</span></td>
+          <td><span style="font-size: 12px;">${row.api_surface} (${row.api_breadth})</span></td>
+          <td>${mcpBadge}</td>
+          <td>${buildBadge}</td>
+          <td>
+            <div class="confidence-meter">
+              <span>${confPct}%</span>
+              <div class="confidence-bar-bg">
+                <div class="confidence-bar-fill" style="width: ${confPct}%;"></div>
+              </div>
+            </div>
+          </td>
+          <td>
+            <button class="details-btn" onclick="openModal(${index})">Inspect</button>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+
+      document.getElementById('resultsCounter').innerText = `Showing ${filteredData.length} of ${appsData.length} apps`;
+    }
+
+    function applyFilters() {
+      const search = document.getElementById('searchInput').value.toLowerCase().trim();
+      const cat = document.getElementById('categoryFilter').value;
+      const build = document.getElementById('buildFilter').value;
+      const auth = document.getElementById('authFilter').value;
+      const mcp = document.getElementById('mcpFilter').value;
+
+      filteredData = appsData.filter(item => {
+        if (cat && item.category !== cat) return false;
+        if (build && item.buildability !== build) return false;
+        if (auth && item.auth_method !== auth) return false;
+        if (mcp && item.has_mcp !== mcp) return false;
+
+        if (search) {
+          const matchName = item.app.toLowerCase().includes(search);
+          const matchCat = item.category.toLowerCase().includes(search);
+          const matchOne = item.one_liner.toLowerCase().includes(search);
+          const matchBlock = (item.main_blocker || '').toLowerCase().includes(search);
+          if (!matchName && !matchCat && !matchOne && !matchBlock) return false;
+        }
+        return true;
+      });
+
+      sortData();
+      renderTable();
+    }
+
+    function sortTable(field) {
+      if (currentSort.field === field) {
+        currentSort.asc = !currentSort.asc;
+      } else {
+        currentSort.field = field;
+        currentSort.asc = true;
+      }
+      sortData();
+      renderTable();
+    }
+
+    function sortData() {
+      filteredData.sort((a, b) => {
+        let vA = a[currentSort.field];
+        let vB = b[currentSort.field];
+        if (typeof vA === 'string') vA = vA.toLowerCase();
+        if (typeof vB === 'string') vB = vB.toLowerCase();
+
+        if (vA < vB) return currentSort.asc ? -1 : 1;
+        if (vA > vB) return currentSort.asc ? 1 : -1;
+        return 0;
+      });
+    }
+
+    function openModal(index) {
+      const item = filteredData[index];
+      if (!item) return;
+
+      document.getElementById('modalAppName').innerText = item.app;
+      document.getElementById('modalCategory').innerText = item.category;
+      document.getElementById('modalOneLiner').innerText = item.one_liner;
+      
+      const blockerText = item.main_blocker || 'None — Fully self-serve and instantly buildable today.';
+      document.getElementById('modalBlocker').innerText = blockerText;
+
+      document.getElementById('modalAuth').innerText = item.auth_method;
+      document.getElementById('modalGating').innerText = item.self_serve_status;
+      document.getElementById('modalSurface').innerText = `${item.api_surface} (${item.api_breadth})`;
+      document.getElementById('modalMcp').innerText = item.has_mcp;
+
+      const evLink = document.getElementById('modalEvidence');
+      evLink.href = item.evidence_url;
+      evLink.innerText = item.evidence_url;
+
+      document.getElementById('detailModal').style.display = 'flex';
+    }
+
+    function closeModal(e) {
+      document.getElementById('detailModal').style.display = 'none';
+    }
+
+    // Export JSON handler
+    document.getElementById('exportJsonBtn').addEventListener('click', () => {
+      const blob = new Blob([JSON.stringify(filteredData, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'composio_100_apps_research.json';
+      a.click();
+    });
+
+    // Event Listeners
+    document.getElementById('searchInput').addEventListener('input', applyFilters);
+    document.getElementById('categoryFilter').addEventListener('change', applyFilters);
+    document.getElementById('buildFilter').addEventListener('change', applyFilters);
+    document.getElementById('authFilter').addEventListener('change', applyFilters);
+    document.getElementById('mcpFilter').addEventListener('change', applyFilters);
+
+    // Initial Render
+    renderTable();
+  </script>
+</body>
+</html>
